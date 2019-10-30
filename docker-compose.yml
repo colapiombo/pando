@@ -1,0 +1,64 @@
+version: "3.1"
+services:
+
+  ### nginx ###########################################
+  webserver:
+    image: nginx:latest
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./src/logs:/var/log/nginx/
+    depends_on:
+      - php-fpm
+      - mariadb
+    ports:
+      - "80:80"
+    networks:
+      - tree
+  ### php ##############################################
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - tree
+  ### MariaDB ##############################################
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    volumes:
+      - mariadb:/var/lib/mysql:cached # Persist the database in a Docker volume.
+    environment:
+      - MYSQL_ROOT_PASSWORD=example
+      - MYSQL_DATABASE=tree
+      - MYSQL_USER=tree
+      - MYSQL_PASSWORD=tree
+    ports:
+      - "3306:3306"
+    networks:
+      - tree
+  ### phpMyAdmin ###########################################
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: tree
+      PMA_PASSWORD: tree
+      PMA_ARBITRARY: 1
+      PHP_UPLOAD_MAX_FILESIZE: 1G
+      PHP_MAX_INPUT_VARS: 1G
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mariadb
+    volumes:
+      - ./src/sessions:/sessions
+    networks:
+      - tree
+
+networks:
+  tree:
+
+volumes:
+  mariadb:
