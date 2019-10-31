@@ -26,7 +26,6 @@ services:
   ### MariaDB ##############################################
   mariadb:
     image: mariadb:latest
-    restart: always
     volumes:
       - mariadb:/var/lib/mysql:cached # Persist the database in a Docker volume.
     environment:

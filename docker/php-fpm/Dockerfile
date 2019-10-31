@@ -4,25 +4,23 @@ ARG TIMEZONE
 RUN chgrp -R 0 /var/www/html/
 RUN chmod -R g=u /var/www/html/
 
-RUN apt-get update
+ARG DEBIAN_FRONTEND=noninteractive
 
-# Install iconv, mcryot, gd
-RUN apt-get update && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libmcrypt-dev \
-        libpng-dev \
-    && docker-php-ext-install -j$(nproc) iconv \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd \
-    && pecl install mcrypt-1.0.1 \
-    && docker-php-ext-enable mcrypt
+
+RUN apt-get update && apt-get install -y --fix-missing \
+    apt-utils \
+    gnupg
+
+RUN echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list
+RUN echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list
+RUN curl -sS --insecure https://www.dotdeb.org/dotdeb.gpg | apt-key add -
 
 
 # Install intl
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
         libicu-dev \
-        zlib1g-dev \
+    zlib1g-dev \
+    libzip-dev\
         g++ \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl
@@ -66,6 +64,8 @@ RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} >
 && printf '[PHP]\ndate.timezone = "%s"\n', ${TIMEZONE} > /usr/local/etc/php/conf.d/tzone.ini \
 && "date"
 
+RUN chown -R www-data:www-data /var/www
+
 RUN chgrp -R 0 /var/www/html/
 RUN chmod -R g=u /var/www/html/
 
@@ -75,10 +75,4 @@ COPY ./php-fpm.conf /usr/local/etc/
 
 WORKDIR /var/www/html
 
-# Set host user as www-data user in container,
-# allowing webroot files (Drupal) to be edited from host
-RUN echo "Setting host user ID ${HOST_UID} for www-data..."
-RUN usermod -o -u ${HOST_UID} www-data
-RUN groupmod -o -g ${HOST_GID} www-data
 
-RUN chown -R www-data:www-data /var/www
