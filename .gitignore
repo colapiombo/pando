@@ -3,3 +3,5 @@ composer.phar
 /src/
 .DS_Store
 /.idea/*
+composer\.lock
+/resources/
