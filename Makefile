@@ -52,10 +52,14 @@ php: ## Open a terminal in the "php-fpm" container
 webserver: ## Open a terminal in the "webserver" container
 	docker-compose exec webserver sh
 
+composer: ## List all containers managed by the environment
+	docker-compose run composer
+
 
 start: ## Start the environment
 	docker-compose stop
 	docker-compose build
+
 	docker-compose up -d --remove-orphans
 
 stop: ## Stop the environment

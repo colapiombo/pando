@@ -9,6 +9,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --fix-missing \
     apt-utils \
+    nano\
     gnupg
 
 RUN echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list
@@ -54,11 +55,6 @@ RUN echo 'opcache.enable=1' >> /usr/local/etc/php/conf.d/opcache.conf
 RUN echo 'opcache.validate_timestamps=1' >> /usr/local/etc/php/conf.d/opcache.conf
 RUN echo 'opcache.fast_shutdown=1' >> /usr/local/etc/php/conf.d/opcache.conf
 
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-&& composer --version
-
 # Set timezone
 RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone \
 && printf '[PHP]\ndate.timezone = "%s"\n', ${TIMEZONE} > /usr/local/etc/php/conf.d/tzone.ini \
@@ -71,8 +67,7 @@ RUN chmod -R g=u /var/www/html/
 
 COPY ./www.conf /usr/local/etc/php-fpm.d/
 COPY ./php.ini /usr/local/etc/php/
-COPY ./php-fpm.conf /usr/local/etc/
+COPY ./php.conf /usr/local/etc/
 
-WORKDIR /var/www/html
 
 
