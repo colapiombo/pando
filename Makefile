@@ -49,12 +49,11 @@ php: ## Open a terminal in the "php-fpm" container
 	docker-compose exec  php-fpm sh
 
 
-webserver: ## Open a terminal in the "webserver" container
-	docker-compose exec webserver sh
+nginx: ## Open a terminal in the "nginx" container
+	docker-compose exec nginx sh
 
-composer: ## List all containers managed by the environment
-	docker-compose run composer
-
+hosts: ## create value in the hosts
+	sh bin/host.sh
 
 start: ## Start the environment
 	docker-compose stop
