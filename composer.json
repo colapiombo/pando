@@ -1,0 +1,17 @@
+{
+  "name": "MarshallJamesRaynor/pando",
+  "description": "PHP library for handling tree structures  ",
+  "keywords": ["php", "docker","nginx","mariadb","phpmyadmin","adminer","tree"],
+  "homepage": "https://github.com/MarshallJamesRaynor/tree-data-structure",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Paolo Combi",
+      "email": "paolo@combi.li",
+      "homepage": "https://combi.li"
+    }
+  ],
+  "require-dev": {
+    "pds/skeleton": "^1.0"
+  }
+}
