@@ -1,58 +1,130 @@
-tree-data-structure environment
+Pando environment
 ==================================
 
-# Add to your project #
 
-Simply, unzip the file into your project, this will create `docker-compose.yml` on the root of your project and a folder named `phpdocker` containing nginx and php-fpm config for it.
+## Overview
 
-Ensure the webserver config on `phpdocker/nginx/nginx.conf` is correct for your project. PHPDocker.io will have customised this file according to the application type you chose on the generator, for instance `web/app|app_dev.php` on a Symfony project, or `public/index.php` on generic apps.
+1. [Install prerequisites](#install-prerequisites)
 
-Note: you may place the files elsewhere in your project. Make sure you modify the locations for the php-fpm dockerfile, the php.ini overrides and nginx config on `docker-compose.yml` if you do so.
- 
-# How to run #
+    Before installing project make sure the following prerequisites have been met.
 
-Dependencies:
+2. [Clone the project](#clone-the-project)
 
-  * Docker engine v1.13 or higher. Your OS provided package might be a little old, if you encounter problems, do upgrade. See [https://docs.docker.com/engine/installation](https://docs.docker.com/engine/installation)
-  * Docker compose v1.12 or higher. See [docs.docker.com/compose/install](https://docs.docker.com/compose/install/)
+    We’ll download the code from its repository on GitHub.
 
-Once you're done, simply `cd` to your project and run `docker-compose up -d`. This will initialise and start all the containers, then leave them running in the background.
+3. [Run the application](#run-the-application)
 
-## Services exposed outside your environment ##
+    By this point we’ll have all the project pieces in place.
 
-You can access your application via **`localhost`**, if you're running the containers directly, or through **``** when run on a vm. nginx and mailhog both respond to any hostname, in case you want to add your own hostname on your `/etc/hosts` 
+4. [Use Docker Commands](#use-docker-commands)
 
-Service|Address outside containers
-------|---------|-----------
-Webserver|[localhost:8080](http://localhost:8080)
-MariaDB|**host:** `localhost`; **port:** `8083`
+    When running, you can use docker commands for doing recurrent operations.
+    
+___
 
-## Hosts within your environment ##
+## Install prerequisites
 
-You'll need to configure your application to use any services you enabled:
+For now, this project has been mainly created for Unix `(Linux/MacOS)`. Perhaps it could work on Windows.
 
-Service|Hostname|Port number
-------|---------|-----------
-php-fpm|php-fpm|9000
-MariaDB|mariadb|3306 (default)
+All requisites should be available for your distribution. The most important are :
 
-# Docker compose cheatsheet #
+* [Git](https://git-scm.com/downloads)
+* [Docker](https://docs.docker.com/engine/installation/)
+* [Docker Compose](https://docs.docker.com/compose/install/)
 
-**Note:** you need to cd first to where your docker-compose.yml file lives.
+Check if `docker-compose` is already installed by entering the following command : 
 
-  * Start containers in the background: `docker-compose up -d`
-  * Start containers on the foreground: `docker-compose up`. You will see a stream of logs for every container running.
-  * Stop containers: `docker-compose stop`
-  * Kill containers: `docker-compose kill`
-  * View container logs: `docker-compose logs`
-  * Execute command inside of container: `docker-compose exec SERVICE_NAME COMMAND` where `COMMAND` is whatever you want to run. Examples:
-        * Shell into the PHP container, `docker-compose exec php-fpm bash`
-        * Run symfony console, `docker-compose exec php-fpm bin/console`
-        * Open a mysql shell, `docker-compose exec mysql mysql -uroot -pCHOSEN_ROOT_PASSWORD`
+```sh
+which docker-compose
+```
+
+On Ubuntu and Debian these are available in the meta-package build-essential. On other distributions, you may need to install the GNU C++ compiler separately.
+
+```sh
+sudo apt install build-essential
+```
+### Images to use
+
+* [Nginx](https://hub.docker.com/_/nginx)
+* [MariaDB](https://hub.docker.com/_/mariadb)
+* [PHP](https://hub.docker.com/_/php)
+* [PHPMyAdmin](https://hub.docker.com/r/phpmyadmin/phpmyadmin/)
+* [composer](https://hub.docker.com/_/composer)
+
+This project use the following ports :
+
+| Server     | Port |
+|------------|------|
+| mariadb    | 3306 |
+| PHPMyAdmin | 8080     |
+| nginx     | 80|
+| composer   | 15672 |
+
+___
+
+## Run the application
+### Makefile
+
+One of the main features of this project is the ability to manage the environment from the project directory itself.
+The starter includes a Makefile to simplify the basic tasks:
+
+
+1. Start the application :
+
+    ```sh
+    make start
+    ```
+
+    **Please wait this might take a several minutes...**
+    ```sh
+    make hosts
+    ```
+
+
+3. Open your favorite browser :
+
+    * [http://pando.pando](http://pando.pando/)
+    * [http://phpmyadmin.pando](http://phpmyadmin.pando/) phpmyadmin (server:mariadb, username: tree, password: tree)
+
+4. Stop and clear services
+
+    ```sh
+     make stop
+    ```
+
+Here are  other several commands that you can now use from your project directory.
+
+ ----------------------------------------------------------------------------
+   Environment
+ ----------------------------------------------------------------------------
+
+- `build`                          Build the environment
+- `rebuild`                        force a rebuild by passing --no-cache
+- `logs`                           Follow logs generated by all containers
+- `logs-full`                      Follow logs generated by all containers from the containers creation
+- `php`                            Open a terminal in the "php" container
+- `nginx`                          Open a terminal in the "nginx" container
+- `ps`                             List all containers managed by the environment
+- `start`                          Start the environment
+- `stats`                          Print real-time statistics about containers ressources usage
+- `stop`                           Stop the environment
+- `hosts`                          Create value in the hosts
+- `destroy`                        destroy the environment
+- `prune`                          clean all that is not actively used
+- `help`                           show list command
+
+
+## Help me
+
+Any thought, feedback or (hopefully not!) issue.
 
 # Recommendations #
 
-It's hard to avoid file permission issues when fiddling about with containers due to the fact that, from your OS point of view, any files created within the container are owned by the process that runs the docker engine (this is usually root). Different OS will also have different problems, for instance you can run stuff in containers using `docker exec -it -u $(id -u):$(id -g) CONTAINER_NAME COMMAND` to force your current user ID into the process, but this will only work if your host OS is Linux, not mac. Follow a couple of simple rules and save yourself a world of hurt.
+It's hard to avoid file permission issues when fiddling about with containers due to the fact that,
+ from your OS point of view, any files created within the container are owned by the process that runs the docker engine (this is usually root).
+  Different OS will also have different problems, for instance you can run stuff in containers using `docker exec -it -u $(id -u):$(id -g) CONTAINER_NAME COMMAND`
+   to force your current user ID into the process, but this will only work if your host OS is Linux, not mac. Follow a couple of simple rules and save yourself a world of hurt.
 
   * Run composer outside of the php container, as doing so would install all your dependencies owned by `root` within your vendor folder.
   * Run commands straight inside of your container. You can easily open a shell as described above and do your thing from there.
+  * Run composer command using the composer container.you can run stuff in containers using `docker-compose run --rm composer install`
