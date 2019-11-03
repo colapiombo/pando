@@ -2,7 +2,7 @@ version: "3.1"
 services:
 
   ### nginx ###########################################
-  webserver:
+  nginx:
     image: nginx:latest
     volumes:
       - ./:/var/www/html
