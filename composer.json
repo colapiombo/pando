@@ -1,5 +1,5 @@
 {
-  "name": "MarshallJamesRaynor/pando",
+  "name": "marshalljamesraynor/pando",
   "description": "PHP library for handling tree structures  ",
   "keywords": ["php", "docker","nginx","mariadb","phpmyadmin","adminer","tree"],
   "homepage": "https://github.com/MarshallJamesRaynor/tree-data-structure",
@@ -12,6 +12,7 @@
     }
   ],
   "require-dev": {
-    "pds/skeleton": "^1.0"
+    "pds/skeleton": "^1.0",
+    "phpunit/phpunit": "^8"
   }
 }
