@@ -1,7 +1,15 @@
 {
   "name": "marshalljamesraynor/pando",
   "description": "PHP library for handling tree structures  ",
-  "keywords": ["php", "docker","nginx","mariadb","phpmyadmin","adminer","tree"],
+  "keywords": [
+    "php",
+    "docker",
+    "nginx",
+    "mariadb",
+    "phpmyadmin",
+    "adminer",
+    "tree"
+  ],
   "homepage": "https://github.com/MarshallJamesRaynor/tree-data-structure",
   "license": "MIT",
   "authors": [
@@ -11,8 +19,17 @@
       "homepage": "https://combi.li"
     }
   ],
+  "require": {
+    "php": ">= 7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pando\\": "src/"
+    }
+  },
   "require-dev": {
     "pds/skeleton": "^1.0",
-    "phpunit/phpunit": "^8"
+    "phpunit/phpunit": "^8",
+    "phpbench/phpbench": "@dev"
   }
 }
