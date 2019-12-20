@@ -1,6 +1,5 @@
 composer.phar
 /vendor/
-/src/
 .DS_Store
 /.idea/*
 composer.lock

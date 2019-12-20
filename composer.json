@@ -27,9 +27,17 @@
       "Pando\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Pando\\Test\\": "tests/"
+    }
+  },
   "require-dev": {
     "pds/skeleton": "^1.0",
     "phpunit/phpunit": "^8",
     "phpbench/phpbench": "@dev"
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
   }
 }
