@@ -29,7 +29,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Pando\\Test\\": "tests/"
+      "Test\\": "tests/"
     }
   },
   "require-dev": {
@@ -38,6 +38,6 @@
     "phpbench/phpbench": "@dev"
   },
   "scripts": {
-    "test": "vendor/bin/phpunit"
+    "test": "phpunit"
   }
 }
