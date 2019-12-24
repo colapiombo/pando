@@ -48,9 +48,22 @@ RUN docker-php-ext-install mysqli
 RUN docker-php-ext-enable mysqli
 
 
+#Xdebug
+RUN pecl install xdebug redis \
+    && docker-php-ext-enable xdebug redis \
+    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.remote_port=9001" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.remote_connect_back=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.idekey=mertblog.net" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.remote_host=docker.for.mac.localhost" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+
+
+
 #opcache.validate_timestamps - production environments: 0
 RUN usermod -u 1000 www-data
-RUN echo 'date.timezone="America/Sao_Paulo"' >> /usr/local/etc/php/conf.d/date.ini
+RUN echo 'date.timezone="Europa/Helsinki"' >> /usr/local/etc/php/conf.d/date.ini
 RUN echo 'opcache.enable=1' >> /usr/local/etc/php/conf.d/opcache.conf
 RUN echo 'opcache.validate_timestamps=1' >> /usr/local/etc/php/conf.d/opcache.conf
 RUN echo 'opcache.fast_shutdown=1' >> /usr/local/etc/php/conf.d/opcache.conf
