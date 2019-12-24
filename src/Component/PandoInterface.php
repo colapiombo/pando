@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Pando\Component;
 
 
-interface PandoInterface{
+interface PandoInterface extends \Countable, \IteratorAggregate{
 
     /**
      * @param PandoInterface $pando
