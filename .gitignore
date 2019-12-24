@@ -5,3 +5,5 @@ composer.phar
 composer.lock
 /resources/
 !/resources/.keep
+/.php_cs.cache
+\.phpunit\.result\.cache
