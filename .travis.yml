@@ -10,11 +10,8 @@ sudo: false
 # fast_finish: If your build fails do not continue trying to build, just stop.
 matrix:
   include:
-    - php: 7.1
       env: ANALYSIS='true'
-    - php: 7.2
     - php: 7.3
-    - php: nightly
   allow_failures:
     - php: nightly
   fast_finish: true
