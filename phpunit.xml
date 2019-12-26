@@ -14,6 +14,15 @@
         </testsuite>
     </testsuites>
 
+    <logging>
+        <log
+                type="coverage-html"
+                target="./resource"
+                lowUpperBound="20"
+                highLowerBound="50"
+        />
+    </logging>
+
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>

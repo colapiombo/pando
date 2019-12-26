@@ -59,7 +59,7 @@ RUN pecl install xdebug redis \
     && echo "xdebug.idekey=mertblog.net" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.remote_host=docker.for.mac.localhost" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-
+RUN docker-php-ext-enable xdebug;
 
 #opcache.validate_timestamps - production environments: 0
 RUN usermod -u 1000 www-data
