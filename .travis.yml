@@ -30,7 +30,7 @@ notifications:
 # Let Travis choose PHPUnit version, ignore lockfile
 before_script:
   - composer self-update
-  - composer require php-coveralls/php-coveralls:^2.1.0
+  - composer require php-coveralls/php-coveralls
   - composer install --no-scripts --no-suggest --no-interaction
 
 # Commands you want to run that will verify your build.
