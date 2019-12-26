@@ -20,7 +20,6 @@ rebuild:
 	# force a rebuild by passing --no-cache
 	docker-compose build --no-cache
 
-
 build:
 	# only build the container. Note, docker does this also if you apply other targets.
 	docker-compose stop
@@ -57,8 +56,6 @@ hosts: ## create value in the hosts
 
 start: ## Start the environment
 	docker-compose stop
-	docker-compose build
-
 	docker-compose up -d --remove-orphans
 
 stop: ## Stop the environment
