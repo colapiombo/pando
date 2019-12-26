@@ -1,18 +1,17 @@
 <?php
 declare(strict_types=1);
-
 /**
- *  NOTICE OF LICENSE
  *
- *  This source file is released under commercial license by Lamia Oy.
- *
- * @copyright Copyright (c) 2019 Lamia Oy (https://lamia.fi)
+ * @link    https://github.com/MarshallJamesRaynor/pando
+ * @author  Paolo Combi <paolo@combi.li>
+ * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
+ * @package Component
  */
 
 namespace Pando\Component;
 
 
- class PandoIterator implements \Iterator{
+ class PandoIterator implements PandoIteratorInterface {
 
      /**
       * @var PandoInterface
@@ -29,9 +28,7 @@ namespace Pando\Component;
 
      public function current(): ?PandoInterface
      {
-         return $this->pando->children()
-             ? $this->pando->children()[$this->position]
-             : null;
+         return $this->pando->children() ? $this->pando->children()[$this->position] : null;
      }
 
      public function next(): void

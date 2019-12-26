@@ -3,7 +3,7 @@
 ![License](https://poser.pugx.org/slim/psr7/license)
 # Pando
 
-![](docs/Tree.png)
+![](docs/Tree.png)  
 A PHP implementation of tree data structure.
 
 ## Documentation
