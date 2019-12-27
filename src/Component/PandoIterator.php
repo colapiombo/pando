@@ -10,44 +10,52 @@ declare(strict_types=1);
 
 namespace Pando\Component;
 
+class PandoIterator implements PandoIteratorInterface
+{
 
- class PandoIterator implements PandoIteratorInterface {
+    /**
+     * @var PandoInterface
+     */
+    private $pando;
 
-     /**
-      * @var PandoInterface
-      */
-     private $pando;
-     private $position;
-     private $reverse;
+    /**
+     * @var int
+     */
+    private $position;
 
-     public function __construct(PandoInterface $pando, bool $reverse = false)
-     {
-         $this->pando = $pando;
-         $this->reverse = $reverse;
-     }
+    /**
+     * @var bool
+     */
+    private $reverse;
 
-     public function current(): ?PandoInterface
-     {
-         return $this->pando->children() ? $this->pando->children()[$this->position] : null;
-     }
+    public function __construct(PandoInterface $pando, bool $reverse = false)
+    {
+        $this->pando = $pando;
+        $this->reverse = $reverse;
+    }
 
-     public function next(): void
-     {
-         $this->position = $this->position + ($this->reverse ? -1 : 1);
-     }
+    public function current(): ?PandoInterface
+    {
+        return $this->pando->children() ? $this->pando->children()[$this->position] : null;
+    }
 
-     public function key(): int
-     {
-         return is_null($this->position) ? 0 : $this->position;
-     }
+    public function next(): void
+    {
+        $this->position = $this->position + ($this->reverse ? -1 : 1);
+    }
 
-     public function valid(): bool
-     {
-         return $this->pando->children() && isset($this->pando->children()[$this->position]);
-     }
+    public function key(): int
+    {
+        return is_null($this->position) ? 0 : $this->position;
+    }
 
-     public function rewind(): void
-     {
-         $this->position = $this->reverse ? $this->pando->count() - 1 : 0;
-     }
- }
+    public function valid(): bool
+    {
+        return $this->pando->children() && isset($this->pando->children()[$this->position]);
+    }
+
+    public function rewind(): void
+    {
+        $this->position = $this->reverse ? $this->pando->count() - 1 : 0;
+    }
+}

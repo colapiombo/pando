@@ -8,11 +8,10 @@ declare(strict_types=1);
  * @package Component
  */
 
-
 namespace Pando\Component;
 
-
-interface PandoInterface extends \Countable, \IteratorAggregate{
+interface PandoInterface extends \Countable, \IteratorAggregate
+{
 
     /**
      * @param PandoInterface $pando
@@ -26,11 +25,9 @@ interface PandoInterface extends \Countable, \IteratorAggregate{
      */
     public function remove(PandoInterface $pando):PandoInterface;
 
-
     /**
      * @param PandoInterface $pando
      * @return PandoInterface
      */
     public function setParent(PandoInterface $pando):PandoInterface;
-
 }

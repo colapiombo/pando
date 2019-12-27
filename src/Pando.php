@@ -27,11 +27,14 @@ class Pando extends DataObject implements PandoInterface
      */
     private $children;
 
+    /**
+     * Pando constructor.
+     * @param array $data
+     */
     public function __construct(array $data = [])
     {
         parent::__construct($data);
         $this->children = [];
-
     }
 
     /**
@@ -62,8 +65,8 @@ class Pando extends DataObject implements PandoInterface
         return $this;
     }
 
-    public function children(){
-
+    public function children()
+    {
         return $this->children;
     }
 
@@ -82,8 +85,4 @@ class Pando extends DataObject implements PandoInterface
     {
         return new PandoIterator($this, true);
     }
-
-
-
-
 }
