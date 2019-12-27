@@ -8,9 +8,10 @@ declare(strict_types=1);
  * @package Component
  */
 
-namespace  Pando\Component;
+namespace Pando\Component;
 
-interface PandoIteratorInterface  extends \Iterator{
+interface PandoIteratorInterface extends \Iterator
+{
 
     public function current(): ?PandoInterface;
 
@@ -21,5 +22,4 @@ interface PandoIteratorInterface  extends \Iterator{
     public function valid(): bool;
 
     public function rewind(): void;
-
 }

@@ -1,12 +1,20 @@
 <?php
 declare(strict_types=1);
+/**
+ *
+ * @link    https://github.com/MarshallJamesRaynor/pando
+ * @author  Paolo Combi <paolo@combi.li>
+ * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
+ * @package Component
+ */
+namespace Test;
 
 use PHPUnit\Framework\TestCase;
 
 use \Pando\Pando;
 
-final class PandoTest extends TestCase{
-
+final class PandoTest extends TestCase
+{
 
     /**
      * @inheritDoc
@@ -23,20 +31,12 @@ final class PandoTest extends TestCase{
     }
 
 
-    public function testCreatePando(){
+    public function testCreatePando()
+    {
         $pando = new Pando();
-        $this->assertInstanceOf(\Pando\Component\PandoInterface::class,$pando);
+        $this->assertInstanceOf(\Pando\Component\PandoInterface::class, $pando);
 
         $pando = new Pando([new Pando()]);
-        $this->assertInstanceOf(\Pando\Component\PandoInterface::class,$pando);
+        $this->assertInstanceOf(\Pando\Component\PandoInterface::class, $pando);
     }
-
-    public function testSetParent(){
-
-        $pando = new Pando(['pippo'=>'franco']);
-        $pando2 = new Pando(['pippo2'=>'franco2']);
-        $pando2->add($pando);
-
-    }
-
 }

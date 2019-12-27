@@ -18,8 +18,7 @@ class DataObject implements \ArrayAccess
      *
      * @var array
      */
-    protected $_data = [];
-
+    protected $data = [];
 
     /**
      * Constructor
@@ -31,7 +30,7 @@ class DataObject implements \ArrayAccess
      */
     public function __construct(array $data = [])
     {
-        $this->_data = $data;
+        $this->data = $data;
     }
 
     /**
@@ -65,9 +64,9 @@ class DataObject implements \ArrayAccess
     public function setData($key, $value = null)
     {
         if ($key === (array)$key) {
-            $this->_data = $key;
+            $this->data = $key;
         } else {
-            $this->_data[$key] = $value;
+            $this->data[$key] = $value;
         }
         return $this;
     }
@@ -83,8 +82,8 @@ class DataObject implements \ArrayAccess
         if ($key === null) {
             $this->setData([]);
         } elseif (is_string($key)) {
-            if (isset($this->_data[$key]) || array_key_exists($key, $this->_data)) {
-                unset($this->_data[$key]);
+            if (isset($this->data[$key]) || array_key_exists($key, $this->data)) {
+                unset($this->data[$key]);
             }
         } elseif ($key === (array)$key) {
             foreach ($key as $element) {
@@ -112,14 +111,14 @@ class DataObject implements \ArrayAccess
     public function getData($key = '', $index = null)
     {
         if ('' === $key) {
-            return $this->_data;
+            return $this->data;
         }
 
         /* process a/b/c key as ['a']['b']['c'] */
         if (strpos($key, '/') !== false) {
             $data = $this->getDataByPath($key);
         } else {
-            $data = $this->_getData($key);
+            $data = $this->get($key);
         }
 
         if ($index !== null) {
@@ -149,7 +148,7 @@ class DataObject implements \ArrayAccess
     {
         $keys = explode('/', $path);
 
-        $data = $this->_data;
+        $data = $this->data;
         foreach ($keys as $key) {
             if ((array)$data === $data && isset($data[$key])) {
                 $data = $data[$key];
@@ -170,19 +169,19 @@ class DataObject implements \ArrayAccess
      */
     public function getDataByKey($key)
     {
-        return $this->_getData($key);
+        return $this->get($key);
     }
 
     /**
-     * Get value from _data array without parse key
+     * Get value from data array without parse key
      *
      * @param   string $key
      * @return  mixed
      */
-    protected function _getData($key)
+    protected function get($key)
     {
-        if (isset($this->_data[$key])) {
-            return $this->_data[$key];
+        if (isset($this->data[$key])) {
+            return $this->data[$key];
         }
         return null;
     }
@@ -200,9 +199,9 @@ class DataObject implements \ArrayAccess
     public function hasData($key = '')
     {
         if (empty($key) || !is_string($key)) {
-            return !empty($this->_data);
+            return !empty($this->data);
         }
-        return array_key_exists($key, $this->_data);
+        return array_key_exists($key, $this->data);
     }
 
     /**
@@ -214,13 +213,13 @@ class DataObject implements \ArrayAccess
     public function toArray(array $keys = [])
     {
         if (empty($keys)) {
-            return $this->_data;
+            return $this->data;
         }
 
         $result = [];
         foreach ($keys as $key) {
-            if (isset($this->_data[$key])) {
-                $result[$key] = $this->_data[$key];
+            if (isset($this->data[$key])) {
+                $result[$key] = $this->data[$key];
             } else {
                 $result[$key] = null;
             }
@@ -247,7 +246,7 @@ class DataObject implements \ArrayAccess
      */
     public function isEmpty()
     {
-        if (empty($this->_data)) {
+        if (empty($this->data)) {
             return true;
         }
         return false;
@@ -263,7 +262,7 @@ class DataObject implements \ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        $this->_data[$offset] = $value;
+        $this->data[$offset] = $value;
     }
 
     /**
@@ -275,7 +274,7 @@ class DataObject implements \ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->_data[$offset]) || array_key_exists($offset, $this->_data);
+        return isset($this->data[$offset]) || array_key_exists($offset, $this->data);
     }
 
     /**
@@ -287,7 +286,7 @@ class DataObject implements \ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->_data[$offset]);
+        unset($this->data[$offset]);
     }
 
     /**
@@ -299,8 +298,8 @@ class DataObject implements \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        if (isset($this->_data[$offset])) {
-            return $this->_data[$offset];
+        if (isset($this->data[$offset])) {
+            return $this->data[$offset];
         }
         return null;
     }

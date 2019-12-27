@@ -2,7 +2,7 @@
 service_name: travis-ci # travis-ci or travis-pro
 
 # for php-coveralls
-coverage_clover: build/logs/clover.xml
-json_path: build/logs/coveralls-upload.json
+coverage_clover: clover.xml
+json_path: coveralls-upload.json
 exclude_no_stmt: true
 
