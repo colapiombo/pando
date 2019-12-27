@@ -27,8 +27,7 @@ before_script:
 
 # Commands you want to run that will verify your build.
 script:
-  - mkdir -p /build/logs # Create a folder to store clover files
-  - vendor/bin/phpunit --coverage-clover /build/logs/clover.xml
+  - vendor/bin/phpunit --coverage-clover clover.xml
   - vendor/bin/phpcs
   - vendor/bin/phpstan analyse src
 
