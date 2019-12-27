@@ -21,13 +21,13 @@ notifications:
 # Commands to be run before your environment runs.
 # Let Travis choose PHPUnit version, ignore lockfile
 before_script:
-  - mkdir -p build/logs # Create a folder to store clover files
   - composer self-update
   - composer require php-coveralls/php-coveralls
   - composer install --no-scripts --no-suggest --no-interaction
 
 # Commands you want to run that will verify your build.
 script:
+  - mkdir -p build/logs # Create a folder to store clover files
   - vendor/bin/phpunit --coverage-clover /build/logs/clover.xml
   - vendor/bin/phpcs
   - vendor/bin/phpstan analyse src
