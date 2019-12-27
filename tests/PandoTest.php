@@ -39,5 +39,4 @@ final class PandoTest extends TestCase
         $pando = new Pando([new Pando()]);
         $this->assertInstanceOf(\Pando\Component\PandoInterface::class, $pando);
     }
-    
 }
