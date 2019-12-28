@@ -33,7 +33,7 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator
+     * @covers \Pando\Component\PandoIterator::__construct()
      */
     public function testCostructPandoIteratorWithoutArgument()
     {
@@ -42,7 +42,7 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator
+     * @covers \Pando\Component\PandoIterator::__construct()
      */
     public function testCostructPandoIteratorWithTypeError()
     {
@@ -54,7 +54,7 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator::key
+     * @covers \Pando\Component\PandoIterator::key()
      */
     public function testPandoIteratorKeyValue()
     {
@@ -64,7 +64,7 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator::next
+     * @covers \Pando\Component\PandoIterator::next()
      */
     public function testPandoIteratorNext()
     {
@@ -75,7 +75,7 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator::valid
+     * @covers \Pando\Component\PandoIterator::valid()
      */
     public function testValidIfItemInvalid()
     {
@@ -88,7 +88,7 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator::rewind
+     * @covers \Pando\Component\PandoIterator::rewind()
      */
     public function testRewind()
     {
@@ -98,7 +98,7 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator::current
+     * @covers \Pando\Component\PandoIterator::current()
      */
     public function testCurrent()
     {

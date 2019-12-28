@@ -36,6 +36,9 @@ final class PandoTest extends TestCase
         $this->pando = null;
     }
 
+    /**
+     * @covers \Pando\Pando::__construct()
+     */
     public function testCreatePando()
     {
         $pando = new Pando();
@@ -47,7 +50,7 @@ final class PandoTest extends TestCase
 
 
     /**
-     * @covers Pando::getChildren
+     * @covers \Pando\Pando::getChildren()
      */
     public function testPandoShouldReturnExceptionForNotExistingPosition()
     {
@@ -57,7 +60,7 @@ final class PandoTest extends TestCase
 
 
     /**
-     * @covers Pando::getChildren
+     * @covers \Pando\Pando::getChildren()
      */
     public function testPandoShouldReturnPandoForExistingPosition()
     {
@@ -67,7 +70,7 @@ final class PandoTest extends TestCase
     }
 
     /**
-     * @covers Pando::getIterator
+     * @covers \Pando\Pando::getIterator()
      */
     public function testEmptyPando()
     {
