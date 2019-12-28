@@ -45,7 +45,7 @@ ps: ## List all containers managed by the environment
 	docker-compose ps
 
 php: ## Open a terminal in the "php-fpm" container
-	docker-compose exec  php-fpm sh
+	docker-compose exec  php sh
 
 
 nginx: ## Open a terminal in the "nginx" container
@@ -60,6 +60,9 @@ start: ## Start the environment
 
 stop: ## Stop the environment
 	docker-compose stop
+
+phpunit: ## start the phpunit
+	docker-compose exec php php vendor/bin/phpunit
 
 destroy: ## destroy the environment
 	docker-compose stop
