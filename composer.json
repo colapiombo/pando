@@ -38,7 +38,8 @@
     "phpbench/phpbench": "@dev",
     "phpstan/phpstan": "^0.12.3",
     "squizlabs/php_codesniffer": "^3.5",
-    "php-coveralls/php-coveralls": "^2.2"
+    "php-coveralls/php-coveralls": "^2.2",
+    "phpunit/phpcov": "^6.0"
   },
   "scripts": {
     "test": [
@@ -46,8 +47,8 @@
       "@phpcs",
       "@phpstan"
     ],
-    "phpunit": "php vendor/bin/phpunit",
-    "phpcs": "php vendor/bin/phpcs",
-    "phpstan": "php -d memory_limit=-1 vendor/bin/phpstan analyse src"
+    "phpunit": "vendor/bin/phpunit",
+    "phpcs": "vendor/bin/phpcs",
+    "phpstan": "-d memory_limit=-1 vendor/bin/phpstan analyse src"
   }
 }

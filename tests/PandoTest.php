@@ -7,6 +7,7 @@ declare(strict_types=1);
  * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
  * @package Component
  */
+
 namespace Test;
 
 use Pando\Component\PandoIterator;
@@ -20,22 +21,20 @@ final class PandoTest extends TestCase
 
     protected $pando;
 
-    /**
-     * @inheritDoc
-     */
     protected function setUp(): void
     {
-        $this->pando  = new Pando();
+        $this->pando = new Pando();
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function tearDown(): void
     {
         $this->pando = null;
     }
 
+    /**
+     * @covers  \Pando\Pando::__construct
+     * @covers  \Pando\Component\PandoData::__construct
+     */
     public function testCreatePando()
     {
         $pando = new Pando();
@@ -45,9 +44,11 @@ final class PandoTest extends TestCase
         $this->assertInstanceOf(\Pando\Component\PandoInterface::class, $pando);
     }
 
-
     /**
-     * @covers Pando::getChildren
+     * @covers  \Pando\Pando::__construct
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoIterator::__construct
+     * @covers  \Pando\Pando::getChildren
      */
     public function testPandoShouldReturnExceptionForNotExistingPosition()
     {
@@ -57,7 +58,12 @@ final class PandoTest extends TestCase
 
 
     /**
-     * @covers Pando::getChildren
+     * @covers  \Pando\Pando::__construct
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoIterator::__construct
+     * @covers  \Pando\Pando::getChildren
+     * @covers  \Pando\Pando::add
+     * @covers  \Pando\Pando::setParent
      */
     public function testPandoShouldReturnPandoForExistingPosition()
     {
@@ -66,8 +72,13 @@ final class PandoTest extends TestCase
         $this->assertInstanceOf(Pando::class, $result);
     }
 
+
     /**
-     * @covers Pando::getIterator
+     * @covers  \Pando\Pando::__construct
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoIterator::__construct
+     * @covers  \Pando\Pando::count
+     * @covers  \Pando\Pando::getIterator
      */
     public function testEmptyPando()
     {

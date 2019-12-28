@@ -33,7 +33,7 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator
+     * @covers \Pando\Component\PandoIterator::__construct
      */
     public function testCostructPandoIteratorWithoutArgument()
     {
@@ -42,7 +42,7 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator
+     * @covers \Pando\Component\PandoIterator::__construct
      */
     public function testCostructPandoIteratorWithTypeError()
     {
@@ -54,7 +54,9 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator::key
+     * @covers \Pando\Component\PandoIterator
+     * @covers \Pando\Component\PandoData::__construct
+     * @covers \Pando\Pando::__construct
      */
     public function testPandoIteratorKeyValue()
     {
@@ -64,7 +66,12 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator::next
+     * @covers \Pando\Component\PandoIterator::next
+     * @covers \Pando\Component\PandoIterator::current
+     * @covers \Pando\Component\PandoData::__construct
+     * @covers \Pando\Component\PandoIterator::__construct
+     * @covers \Pando\Pando::__construct
+     * @covers \Pando\Pando::children
      */
     public function testPandoIteratorNext()
     {
@@ -75,7 +82,12 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator::valid
+     * @covers \Pando\Component\PandoIterator::next
+     * @covers \Pando\Component\PandoIterator::valid
+     * @covers \Pando\Component\PandoData::__construct
+     * @covers \Pando\Component\PandoIterator::__construct
+     * @covers \Pando\Pando::__construct
+     * @covers \Pando\Pando::children
      */
     public function testValidIfItemInvalid()
     {
@@ -83,12 +95,16 @@ class PandoIteratorTest extends TestCase
         $iterator->next();
         $iterator->next();
         $iterator->next();
-
         $this->assertEquals(false, $iterator->valid());
     }
 
     /**
-     * @covers PandoIterator::rewind
+     * @covers \Pando\Component\PandoIterator::rewind
+     * @covers \Pando\Component\PandoIterator::key
+     * @covers \Pando\Component\PandoData::__construct
+     * @covers \Pando\Component\PandoIterator::__construct
+     * @covers \Pando\Pando::__construct
+     * @covers \Pando\Pando::children
      */
     public function testRewind()
     {
@@ -98,7 +114,13 @@ class PandoIteratorTest extends TestCase
     }
 
     /**
-     * @covers PandoIterator::current
+     * @covers \Pando\Component\PandoIterator::current
+     * @covers \Pando\Component\PandoData::__construct
+     * @covers \Pando\Component\PandoIterator::__construct
+     * @covers \Pando\Pando::__construct
+     * @covers \Pando\Pando::children
+     * @covers \Pando\Pando::add
+     * @covers \Pando\Pando::setParent
      */
     public function testCurrent()
     {
