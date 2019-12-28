@@ -10,11 +10,12 @@ declare(strict_types=1);
  */
 namespace Pando;
 
-use Pando\Component\DataObject;
+use Pando\Component\PandoData;
 use Pando\Component\PandoInterface;
 use Pando\Component\PandoIterator;
+use Pando\Exception\NoSuchEntityException;
 
-class Pando extends DataObject implements PandoInterface
+class Pando extends PandoData implements PandoInterface
 {
 
     /**
@@ -63,6 +64,15 @@ class Pando extends DataObject implements PandoInterface
     {
         $this->parent = $pando;
         return $this;
+    }
+
+    public function getChildren($position): PandoInterface
+    {
+        if (isset($this->children[$position])) {
+            return $this->children[$position];
+        } else {
+            throw new NoSuchEntityException("No such entity with position $position");
+        }
     }
 
     public function children()
