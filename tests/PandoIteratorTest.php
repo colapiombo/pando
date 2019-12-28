@@ -32,18 +32,13 @@ class PandoIteratorTest extends TestCase
     {
     }
 
-    /**
-     * @covers \Pando\Component\PandoIterator::__construct()
-     */
+
     public function testCostructPandoIteratorWithoutArgument()
     {
         $this->expectException(\ArgumentCountError::class);
         $iterator = new PandoIterator();
     }
 
-    /**
-     * @covers \Pando\Component\PandoIterator::__construct()
-     */
     public function testCostructPandoIteratorWithTypeError()
     {
         $this->expectException(\TypeError::class);
@@ -53,9 +48,6 @@ class PandoIteratorTest extends TestCase
         $iterator3 = new PandoIterator(new \stdClass());
     }
 
-    /**
-     * @covers \Pando\Component\PandoIterator::key()
-     */
     public function testPandoIteratorKeyValue()
     {
         $iterator = new PandoIterator(new Pando());
@@ -63,9 +55,6 @@ class PandoIteratorTest extends TestCase
         $this->assertEquals(1, $iterator->key());
     }
 
-    /**
-     * @covers \Pando\Component\PandoIterator::next()
-     */
     public function testPandoIteratorNext()
     {
         $iterator = new PandoIterator(new Pando());
@@ -74,22 +63,15 @@ class PandoIteratorTest extends TestCase
         $this->assertEquals(null, $iterator->current());
     }
 
-    /**
-     * @covers \Pando\Component\PandoIterator::valid()
-     */
     public function testValidIfItemInvalid()
     {
         $iterator = new PandoIterator(new Pando());
         $iterator->next();
         $iterator->next();
         $iterator->next();
-
         $this->assertEquals(false, $iterator->valid());
     }
 
-    /**
-     * @covers \Pando\Component\PandoIterator::rewind()
-     */
     public function testRewind()
     {
         $iterator = new PandoIterator(new Pando());
@@ -97,9 +79,6 @@ class PandoIteratorTest extends TestCase
         $this->assertEquals(0, $iterator->key());
     }
 
-    /**
-     * @covers \Pando\Component\PandoIterator::current()
-     */
     public function testCurrent()
     {
         $pando = new Pando();

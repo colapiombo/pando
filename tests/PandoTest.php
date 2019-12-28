@@ -20,25 +20,16 @@ final class PandoTest extends TestCase
 
     protected $pando;
 
-    /**
-     * @inheritDoc
-     */
     protected function setUp(): void
     {
         $this->pando  = new Pando();
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function tearDown(): void
     {
         $this->pando = null;
     }
 
-    /**
-     * @covers \Pando\Pando::__construct()
-     */
     public function testCreatePando()
     {
         $pando = new Pando();
@@ -48,20 +39,12 @@ final class PandoTest extends TestCase
         $this->assertInstanceOf(\Pando\Component\PandoInterface::class, $pando);
     }
 
-
-    /**
-     * @covers \Pando\Pando::getChildren()
-     */
     public function testPandoShouldReturnExceptionForNotExistingPosition()
     {
         $this->expectException(NoSuchEntityException::class);
         $this->pando->getChildren(1);
     }
 
-
-    /**
-     * @covers \Pando\Pando::getChildren()
-     */
     public function testPandoShouldReturnPandoForExistingPosition()
     {
         $this->pando->add(new Pando());
@@ -69,9 +52,6 @@ final class PandoTest extends TestCase
         $this->assertInstanceOf(Pando::class, $result);
     }
 
-    /**
-     * @covers \Pando\Pando::getIterator()
-     */
     public function testEmptyPando()
     {
         $pando = new Pando();
