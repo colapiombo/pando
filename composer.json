@@ -47,8 +47,8 @@
       "@phpcs",
       "@phpstan"
     ],
-    "phpunit": "vendor/bin/phpunit",
-    "phpcs": "vendor/bin/phpcs",
-    "phpstan": "-d memory_limit=-1 vendor/bin/phpstan analyse src"
+    "phpunit": "php vendor/bin/phpunit",
+    "phpcs": "php vendor/bin/phpcs",
+    "phpstan": "php -d memory_limit=-1 vendor/bin/phpstan analyse src"
   }
 }
