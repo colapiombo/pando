@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Pando\Component;
 
-class DataObject implements \ArrayAccess
+class PandoData implements \ArrayAccess
 {
     /**
      * Object attributes
@@ -127,7 +127,7 @@ class DataObject implements \ArrayAccess
             } elseif (is_string($data)) {
                 $data = explode(PHP_EOL, $data);
                 $data = isset($data[$index]) ? $data[$index] : null;
-            } elseif ($data instanceof DataObject) {
+            } elseif ($data instanceof PandoData) {
                 $data = $data->getData($index);
             } else {
                 $data = null;
@@ -152,7 +152,7 @@ class DataObject implements \ArrayAccess
         foreach ($keys as $key) {
             if ((array)$data === $data && isset($data[$key])) {
                 $data = $data[$key];
-            } elseif ($data instanceof DataObject) {
+            } elseif ($data instanceof PandoData) {
                 $data = $data->getDataByKey($key);
             } else {
                 return null;
