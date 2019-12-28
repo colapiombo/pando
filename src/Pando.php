@@ -13,9 +13,10 @@ namespace Pando;
 use Pando\Component\PandoData;
 use Pando\Component\PandoInterface;
 use Pando\Component\PandoIterator;
+use Pando\Component\PandoLogicInterface;
 use Pando\Exception\NoSuchEntityException;
 
-class Pando extends PandoData implements PandoInterface
+class Pando extends PandoData implements PandoInterface, PandoLogicInterface
 {
 
     /**
@@ -24,7 +25,7 @@ class Pando extends PandoData implements PandoInterface
     private $parent;
 
     /**
-     * @var array
+     * @var PandoInterface[]
      */
     private $children;
 
@@ -66,7 +67,48 @@ class Pando extends PandoData implements PandoInterface
         return $this;
     }
 
-    public function getChildren($position): PandoInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function isLeaf(): bool
+    {
+        return $this->getParent() === null;
+    }
+    /**
+     * {@inheritdoc}
+     */
+    public function isRoot(): bool
+    {
+        return $this->getParent() === null;
+    }
+    /**
+     * {@inheritdoc}
+     */
+    public function degree(): int
+    {
+        return $this->count();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        return count($this->children);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent(): ?PandoInterface
+    {
+        return $this->parent;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildren(int $position): PandoInterface
     {
         if (isset($this->children[$position])) {
             return $this->children[$position];
@@ -75,22 +117,33 @@ class Pando extends PandoData implements PandoInterface
         }
     }
 
-    public function children()
+
+    public function pandoDegree(): int
+    {
+        // TODO: Implement pandoDegree() method.
+        return 0;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function children():array
     {
         return $this->children;
     }
 
-
-    public function count(): int
-    {
-        return count($this->children);
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function getIterator(): PandoIterator
     {
         return new PandoIterator($this);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getReverseIterator(): PandoIterator
     {
         return new PandoIterator($this, true);
