@@ -17,7 +17,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Pando\Component\PandoData
- * @uses \Pando\Pando
  */
 class PandoDataTest extends TestCase
 {
@@ -120,8 +119,6 @@ class PandoDataTest extends TestCase
      * @covers  \Pando\Component\PandoData::getData
      * @covers  \Pando\Component\PandoData::setData
      * @covers  \Pando\Component\PandoData::get
-     * @covers  \Pando\Component\PandoData::get
-
      */
     public function testgetDataIndexOutput()
     {
@@ -141,6 +138,19 @@ superstar',
         $this->assertEquals(2, $data->getData('1', '1'));
         $this->assertEquals('superstar', $data->getData('2', '2'));
         $this->assertEquals('value', $data->getData('3', 'key'));
+        $this->assertEquals(null, $data->getData('test', 'test'));
+    }
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::setData
+     * @covers  \Pando\Component\PandoData::addData
+     */
+    public function testsetDataException()
+    {
+        $this->expectException(InputException::class);
+        $data = new  PandoData();
+        $data->setData(1, 23);
     }
 
     /**
@@ -206,6 +216,8 @@ superstar',
      * @covers  \Pando\Component\PandoData::hasData
      * @covers  \Pando\Component\PandoData::addData
      * @covers  \Pando\Component\PandoData::setData
+     * @covers  \Pando\Component\PandoData::unsetData
+
      */
     public function testHasData()
     {
@@ -217,5 +229,37 @@ superstar',
         $this->assertTrue($data->hasData(''));
         $data->unsetData();
         $this->assertFalse($data->hasData(''));
+    }
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Component\PandoData::setData
+     * @covers  \Pando\Component\PandoData::isEmpty
+     * @covers  \Pando\Component\PandoData::unsetData
+     */
+    public function testIsEmpty()
+    {
+        $data = new  PandoData();
+        $data->setData('key', 'value');
+        $this->assertFalse($data->isEmpty());
+        $data->unsetData('key');
+        $this->assertTrue($data->isEmpty());
+    }
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Component\PandoData::setData
+     * @covers  \Pando\Component\PandoData::toString
+     * @covers  \Pando\Component\PandoData::getData
+     */
+    public function testToString()
+    {
+        $data = new  PandoData();
+        $array = [1,2,3,4,5];
+        $data->addData($array);
+        $this->assertIsString($data->toString());
+        $this->assertEquals('1, 2, 3, 4, 5', $data->toString());
     }
 }
