@@ -16,6 +16,11 @@ use PHPUnit\Framework\TestCase;
 
 use \Pando\Pando;
 
+/**
+ * @covers \Pando\Pando
+ * @uses \Pando\Component\PandoIterator
+ * @uses \Pando\Component\PandoData
+ */
 final class PandoTest extends TestCase
 {
 
