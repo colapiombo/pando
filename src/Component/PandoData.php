@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-
 /**
  *
  * @link    https://github.com/MarshallJamesRaynor/pando
@@ -10,6 +9,8 @@ declare(strict_types=1);
  */
 
 namespace Pando\Component;
+
+use Pando\Exception\InputException;
 
 class PandoData implements \ArrayAccess
 {
@@ -27,10 +28,11 @@ class PandoData implements \ArrayAccess
      * This behavior may change in child classes
      *
      * @param array $data
+     * @throws InputException
      */
     public function __construct(array $data = [])
     {
-        $this->data = $data;
+        $this->addData($data);
     }
 
     /**
@@ -40,11 +42,12 @@ class PandoData implements \ArrayAccess
      *
      * @param array $arr
      * @return $this
+     * @throws InputException
      */
-    public function addData(array $arr)
+    public function addData(array $arr):self
     {
         foreach ($arr as $index => $value) {
-            $this->setData($index, $value);
+            $this->setData((string)$index, $value);
         }
         return $this;
     }
@@ -57,27 +60,29 @@ class PandoData implements \ArrayAccess
      *
      * If $key is an array, it will overwrite all the data in the object.
      *
-     * @param string|array $key
-     * @param mixed $value
+     * @param $key
+     * @param null $value
      * @return $this
+     * @throws InputException
      */
-    public function setData($key, $value = null)
+    public function setData($key, $value = null):self
     {
         if ($key === (array)$key) {
             $this->data = $key;
-        } else {
+        } elseif (is_string($key)) {
             $this->data[$key] = $value;
+        } else {
+            throw new InputException('Invalid key has provided');
         }
         return $this;
     }
 
     /**
-     * Unset data from the object.
-     *
-     * @param null|string|array $key
+     * @param null $key
      * @return $this
+     * @throws InputException
      */
-    public function unsetData($key = null)
+    public function unsetData($key = null):self
     {
         if ($key === null) {
             $this->setData([]);
@@ -89,6 +94,8 @@ class PandoData implements \ArrayAccess
             foreach ($key as $element) {
                 $this->unsetData($element);
             }
+        } else {
+            throw new InputException('Invalid key has provided');
         }
         return $this;
     }
@@ -108,7 +115,7 @@ class PandoData implements \ArrayAccess
      * @param string|int $index
      * @return mixed
      */
-    public function getData($key = '', $index = null)
+    public function getData(string $key = '', $index = null)
     {
         if ('' === $key) {
             return $this->data;
@@ -147,8 +154,8 @@ class PandoData implements \ArrayAccess
     public function getDataByPath($path)
     {
         $keys = explode('/', $path);
-
         $data = $this->data;
+
         foreach ($keys as $key) {
             if ((array)$data === $data && isset($data[$key])) {
                 $data = $data[$key];
@@ -196,7 +203,7 @@ class PandoData implements \ArrayAccess
      * @param string $key
      * @return bool
      */
-    public function hasData($key = '')
+    public function hasData($key = ''):bool
     {
         if (empty($key) || !is_string($key)) {
             return !empty($this->data);
@@ -210,7 +217,7 @@ class PandoData implements \ArrayAccess
      * @param array $keys array of required keys
      * @return array
      */
-    public function toArray(array $keys = [])
+    public function toArray(array $keys = []):array
     {
         if (empty($keys)) {
             return $this->data;
@@ -233,7 +240,7 @@ class PandoData implements \ArrayAccess
      **
      * @return string
      */
-    public function toString()
+    public function toString():string
     {
         $result = implode(', ', $this->getData());
         return $result;
@@ -244,7 +251,7 @@ class PandoData implements \ArrayAccess
      *
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty():bool
     {
         if (empty($this->data)) {
             return true;
@@ -260,7 +267,7 @@ class PandoData implements \ArrayAccess
      * @return void
      * @link http://www.php.net/manual/en/arrayaccess.offsetset.php
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value):void
     {
         $this->data[$offset] = $value;
     }
@@ -284,7 +291,7 @@ class PandoData implements \ArrayAccess
      * @return void
      * @link http://www.php.net/manual/en/arrayaccess.offsetunset.php
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset):void
     {
         unset($this->data[$offset]);
     }
