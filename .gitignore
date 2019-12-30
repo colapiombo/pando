@@ -7,3 +7,9 @@ composer.lock
 !/resources/.keep
 /.php_cs.cache
 \.phpunit\.result\.cache
+
+coverage\.xml
+
+coverage\.cov
+
+error_l

@@ -14,6 +14,11 @@ use Pando\Pando;
 use PHPStan\Testing\TestCase;
 use \Pando\Component\PandoIterator;
 
+/**
+ * @covers \Pando\Component\PandoIterator
+ * @uses \Pando\Pando
+ * @uses \Pando\Component\PandoData
+ */
 class PandoIteratorTest extends TestCase
 {
 

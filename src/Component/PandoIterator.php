@@ -21,7 +21,7 @@ class PandoIterator implements PandoIteratorInterface
     /**
      * @var int
      */
-    private $position  = 0;
+    private $position;
 
     /**
      * @var bool
@@ -37,6 +37,7 @@ class PandoIterator implements PandoIteratorInterface
     {
         $this->pando = $pando;
         $this->reverse = $reverse;
+        $this->rewind();
     }
 
     /**

@@ -72,7 +72,7 @@ class Pando extends PandoData implements PandoInterface, PandoLogicInterface
      */
     public function isLeaf(): bool
     {
-        return $this->getParent() === null;
+        return $this->getParent() !== null;
     }
     /**
      * {@inheritdoc}
