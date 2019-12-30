@@ -95,6 +95,7 @@ class PandoDataTest extends TestCase
     /**
      * @covers  \Pando\Component\PandoData::__construct
      * @covers  \Pando\Component\PandoData::getData
+     * @covers  \Pando\Component\PandoData::getDataByPath
      * @covers  \Pando\Component\PandoData::setData
      * @covers  \Pando\Component\PandoData::get
 
@@ -108,7 +109,38 @@ class PandoDataTest extends TestCase
         $data->setData('1', "a");
         $this->assertEquals([0=>0, 1=>"a"], $data->getData());
         $data->setData('2', new \stdClass());
-        $this->assertEquals([0=>0, 1=>"a", 2=>new \stdClass()], $data->getData());
+        $data2 = new  PandoData();
+        $data2->setData('key', 'value');
+        $data->addData(['3'=>$data2]);
+        $this->assertEquals('value', $data->getData('3/key'));
+    }
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::getData
+     * @covers  \Pando\Component\PandoData::setData
+     * @covers  \Pando\Component\PandoData::get
+     * @covers  \Pando\Component\PandoData::get
+
+     */
+    public function testgetDataIndexOutput()
+    {
+        $data = new  PandoData();
+        $data2 = new  PandoData();
+        $data2->setData('key', 'value');
+        $array = [
+            1,
+            [1,2,3,4,5],
+            'pippo
+franco
+superstar',
+            $data2
+        ];
+        $data->addData($array);
+        $this->isNull($data->getData('', 1));
+        $this->assertEquals(2, $data->getData('1', '1'));
+        $this->assertEquals('superstar', $data->getData('2', '2'));
+        $this->assertEquals('value', $data->getData('3', 'key'));
     }
 
     /**
@@ -142,10 +174,15 @@ class PandoDataTest extends TestCase
     public function testGetDataByPath()
     {
         $data = new  PandoData();
-        $array = [1,2,3,4,5];
+        $array = [1, 2, 3, 4, 5];
         $data->addData($array);
         $this->assertEquals(null, $data->getDataByPath('1/2'));
         $this->assertEquals(2, $data->getDataByPath('1'));
+        $data2 = new  PandoData();
+        $data2->setData('key', 'value');
+        $data->addData([$data2]);
+        $data->getDataByPath('0/key');
+        $this->assertEquals('value', $data->getDataByPath('0/key'));
     }
 
     /**
@@ -177,5 +214,8 @@ class PandoDataTest extends TestCase
         $data->addData($array);
         $this->assertTrue($data->hasData('1'));
         $this->assertFalse($data->hasData('asdasd'));
+        $this->assertTrue($data->hasData(''));
+        $data->unsetData();
+        $this->assertFalse($data->hasData(''));
     }
 }
