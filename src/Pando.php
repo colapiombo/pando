@@ -1,24 +1,28 @@
 <?php
+
 declare(strict_types=1);
 
 /**
  *
+ * Pando 2020 — NOTICE OF MIT LICENSE
+ * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
  * @link    https://github.com/MarshallJamesRaynor/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
- * @package Pando
+ *
  */
+
 namespace Pando;
 
 use Pando\Component\PandoData;
 use Pando\Component\PandoInterface;
 use Pando\Component\PandoIterator;
 use Pando\Component\PandoLogicInterface;
+use Pando\Exception\ArgumentNullException;
 use Pando\Exception\NoSuchEntityException;
 
 class Pando extends PandoData implements PandoInterface, PandoLogicInterface
 {
-
     /**
      * @var PandoInterface
      */
@@ -31,7 +35,8 @@ class Pando extends PandoData implements PandoInterface, PandoLogicInterface
 
     /**
      * Pando constructor.
-     * @param array $data
+     *
+     * @throws Exception\InputException
      */
     public function __construct(array $data = [])
     {
@@ -46,6 +51,7 @@ class Pando extends PandoData implements PandoInterface, PandoLogicInterface
     {
         $pando->setParent($this);
         $this->children[] = $pando;
+
         return $this;
     }
 
@@ -64,7 +70,16 @@ class Pando extends PandoData implements PandoInterface, PandoLogicInterface
     public function setParent(PandoInterface $pando): PandoInterface
     {
         $this->parent = $pando;
+
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTrunk(): ?array
+    {
+        return empty($data = $this->getData()) ? null : $data;
     }
 
     /**
@@ -72,15 +87,17 @@ class Pando extends PandoData implements PandoInterface, PandoLogicInterface
      */
     public function isLeaf(): bool
     {
-        return $this->getParent() !== null;
+        return null !== $this->getParent();
     }
+
     /**
      * {@inheritdoc}
      */
     public function isRoot(): bool
     {
-        return $this->getParent() === null;
+        return null === $this->getParent();
     }
+
     /**
      * {@inheritdoc}
      */
@@ -94,7 +111,7 @@ class Pando extends PandoData implements PandoInterface, PandoLogicInterface
      */
     public function count()
     {
-        return count($this->children);
+        return \count($this->children);
     }
 
     /**
@@ -112,30 +129,67 @@ class Pando extends PandoData implements PandoInterface, PandoLogicInterface
     {
         if (isset($this->children[$position])) {
             return $this->children[$position];
-        } else {
-            throw new NoSuchEntityException("No such entity with position $position");
         }
+
+        throw new NoSuchEntityException("No such entity with position $position");
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function search(PandoInterface $pando): array
+    {
+        $wanted = [];
 
+        if (null === $pando->getTrunk()) {
+            throw new ArgumentNullException('Pando cannot be set empty');
+        }
+
+        if ($this->compare($pando)) {
+            return $this;
+        }
+
+        foreach ($this->getIterator() as $children) {
+            $discovered = $children->search($pando);
+            if (\is_array($discovered)) {
+                foreach ($discovered as $found) {
+                    $wanted[] = $found;
+                }
+            } else {
+                $wanted[] = $discovered;
+            }
+        }
+
+        return $wanted;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function pandoDegree(): int
     {
         // TODO: Implement pandoDegree() method.
         return 0;
     }
 
-
     /**
      * {@inheritdoc}
      */
-    public function children():array
+    public function getSibblings(PandoInterface $pando, bool $self = false): array
     {
-        return $this->children;
+        // TODO: Implement getSibblings() method.
+        return [];
     }
 
     /**
      * {@inheritdoc}
      */
+    public function children(): array
+    {
+        return $this->children;
+    }
+
+    // {@inheritdoc}
     public function getIterator(): PandoIterator
     {
         return new PandoIterator($this);
@@ -147,5 +201,15 @@ class Pando extends PandoData implements PandoInterface, PandoLogicInterface
     public function getReverseIterator(): PandoIterator
     {
         return new PandoIterator($this, true);
+    }
+
+    /**
+     * Function use to check if the select Pando have the same data of the other Pando.
+     */
+    protected function compare(PandoInterface $pando): bool
+    {
+        $diff = array_diff_assoc($pando->getTrunk(), $this->getTrunk());
+
+        return empty($diff);
     }
 }
