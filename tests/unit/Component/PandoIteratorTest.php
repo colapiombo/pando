@@ -28,9 +28,10 @@ class PandoIteratorTest extends TestCase
      * @covers \Pando\Pando::__construct
      * @covers \Pando\Component\PandoIterator::key
      */
-    public function testPandoIteratorStartFromZero(){
+    public function testPandoIteratorStartFromZero()
+    {
         $iterator = new PandoIterator(new Pando());
-        $this->assertEquals(0,$iterator->key());
+        $this->assertEquals(0, $iterator->key());
     }
 
     /**
@@ -38,9 +39,10 @@ class PandoIteratorTest extends TestCase
      * @covers \Pando\Pando::__construct
      * @covers \Pando\Component\PandoIterator::key
      */
-    public function testPandoIteratorReturnMinusOneWithoutChildren(){
-        $iterator = new PandoIterator(new Pando(),true);
-        $this->assertEquals(-1,$iterator->key());
+    public function testPandoIteratorReturnMinusOneWithoutChildren()
+    {
+        $iterator = new PandoIterator(new Pando(), true);
+        $this->assertEquals(-1, $iterator->key());
     }
 
     /**
@@ -48,14 +50,15 @@ class PandoIteratorTest extends TestCase
      * @covers \Pando\Pando::__construct
      * @covers \Pando\Component\PandoIterator::key
      */
-    public function testPandoIteratorReturnLastValuePosition(){
+    public function testPandoIteratorReturnLastValuePosition()
+    {
         $pando = new Pando();
         $pandoChildren = new Pando();
         $pandoChildren2 = new Pando();
         $pando->add($pandoChildren);
         $pando->add($pandoChildren2);
-        $iterator = new PandoIterator($pando,true);
-        $this->assertEquals(1,$iterator->key());
+        $iterator = new PandoIterator($pando, true);
+        $this->assertEquals(1, $iterator->key());
     }
 
 

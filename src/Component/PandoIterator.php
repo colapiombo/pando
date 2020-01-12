@@ -33,8 +33,6 @@ class PandoIterator implements PandoIteratorInterface
 
     /**
      * PandoIterator constructor.
-     * @param PandoInterface $pando
-     * @param bool $reverse
      */
     public function __construct(PandoInterface $pando, bool $reverse = false)
     {
