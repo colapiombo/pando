@@ -189,7 +189,9 @@ class Pando extends PandoData implements PandoInterface, PandoLogicInterface
         return $this->children;
     }
 
-    // {@inheritdoc}
+    /**
+     *  {@inheritdoc}
+     */
     public function getIterator(): PandoIterator
     {
         return new PandoIterator($this);

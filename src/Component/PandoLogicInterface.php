@@ -33,13 +33,13 @@ interface PandoLogicInterface
     public function isRoot(): bool;
 
     /**
-     * For a given node, its number of children.
+     * For a given node, the degree of a node is the number of its children.
      * A leaf is necessarily degree zero.
      */
     public function degree(): int;
 
     /**
-     * The degree of a Pando is the degree of its root.
+     * The degree of a Pando is the maximum degree of any of its nodes.
      * A leaf is necessarily degree zero.
      */
     public function pandoDegree(): int;
