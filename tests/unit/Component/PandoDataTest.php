@@ -123,12 +123,16 @@ class PandoDataTest extends TestCase
         $array = [
             1,
             [1,2,3,4,5],
-            'pippo',
+            'pippo
+             franco
+             giovanna',
             $data2
         ];
         $data->addData($array);
+
         $this->isNull($data->getData('', 1));
         $this->assertEquals(2, $data->getData('1', '1'));
+        $this->assertEquals('             giovanna', $data->getData('2', '2'));
         $this->assertEquals('value', $data->getData('3', 'key'));
         $this->assertEquals(null, $data->getData('test', 'test'));
     }
