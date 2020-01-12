@@ -292,4 +292,61 @@ class PandoDataTest extends TestCase
         $this->assertEquals(['Joe' => '43'], $data->toArray(['Joe']));
         $this->assertEquals(['Fly' => null], $data->toArray(['Fly']));
     }
+
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Component\PandoData::offsetSet
+     * @covers  \Pando\Component\PandoData::getData
+     */
+    public function testPandoDataOffsetSet()
+    {
+        $data = new  PandoData();
+        $data->offsetSet('Peter', 35);
+        $this->assertEquals(['Peter' => '35'], $data->getData());
+    }
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Component\PandoData::offsetUnset
+     * @covers  \Pando\Component\PandoData::getData
+     */
+    public function testPandoDataOffsetUnset()
+    {
+        $data = new  PandoData();
+        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $data->addData($array);
+        $data->offsetUnset('Peter');
+        $this->assertEquals(['Ben' => '37', 'Joe' => '43'], $data->getData());
+    }
+
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Component\PandoData::offsetExists
+     */
+    public function testPandoDataOffsetExists()
+    {
+        $data = new  PandoData();
+        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $data->addData($array);
+        $this->assertTrue($data->offsetExists('Peter'));
+    }
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Component\PandoData::offsetGet
+     */
+    public function testPandoDataOffsetGet()
+    {
+        $data = new  PandoData();
+        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $data->addData($array);
+        $this->assertEquals('35', $data->offsetGet('Peter'));
+        $this->isNull($data->offsetGet('Fly'));
+    }
 }
