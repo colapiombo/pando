@@ -139,4 +139,33 @@ class PandoIteratorTest extends TestCase
         $current = $iterator->current();
         $this->assertEquals($pando->children()[0], $current);
     }
+
+    /**
+     * @covers  \Pando\Pando::__construct
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoIterator::__construct
+     * @covers  \Pando\Pando::getIterator
+     * @covers  \Pando\Pando::getReverseIterator
+     * @covers  \Pando\Component\PandoIterator::current
+     * @covers  \Pando\Component\PandoIterator::next
+     * @covers  \Pando\Component\PandoData::getData
+     */
+    public function testIteratorReading()
+    {
+        $pando = new Pando();
+        $pando2 = new Pando();
+        $pando3 = new Pando();
+        $pando2->setData('key', 'firstPando');
+        $pando3->setData('key', 'secondPando');
+        $pando->add($pando2);
+        $pando->add($pando3);
+        $iterator = $pando->getIterator();
+        $this->assertEquals('firstPando', $iterator->current()->getData('key'));
+        $iterator->next();
+        $this->assertEquals('secondPando', $iterator->current()->getData('key'));
+        $reverse = $pando->getReverseIterator();
+        $this->assertEquals('secondPando', $reverse->current()->getData('key'));
+        $reverse->next();
+        $this->assertEquals('firstPando', $reverse->current()->getData('key'));
+    }
 }
