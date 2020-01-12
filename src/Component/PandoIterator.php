@@ -33,6 +33,8 @@ class PandoIterator implements PandoIteratorInterface
 
     /**
      * PandoIterator constructor.
+     * @param PandoInterface $pando
+     * @param bool $reverse
      */
     public function __construct(PandoInterface $pando, bool $reverse = false)
     {
@@ -54,7 +56,7 @@ class PandoIterator implements PandoIteratorInterface
      */
     public function next(): void
     {
-        $this->position = $this->position + ($this->reverse ? -1 : 1);
+        $this->position += ($this->reverse ? -1 : 1);
     }
 
     /**
@@ -62,7 +64,7 @@ class PandoIterator implements PandoIteratorInterface
      */
     public function key(): int
     {
-        return null === $this->position ? 0 : $this->position;
+        return $this->position ?? 0;
     }
 
     /**
