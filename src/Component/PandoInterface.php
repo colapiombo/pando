@@ -1,11 +1,15 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  *
+ * Pando 2020 — NOTICE OF MIT LICENSE
+ * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
  * @link    https://github.com/MarshallJamesRaynor/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
- * @package Component
+ *
  */
 
 namespace Pando\Component;
@@ -14,56 +18,63 @@ use Pando\Exception\NoSuchEntityException;
 
 interface PandoInterface extends \Countable, \IteratorAggregate
 {
-
     /**
      * add child Pando to the current Pando.
      *
      * @param PandoInterface $pando
+     *
      * @return PandoInterface
      */
-    public function add(PandoInterface $psando): PandoInterface;
+    public function add(self $pando): self;
 
     /**
      * remove child Pando to the current Pando.
-     * @param PandoInterface $pando
+     *
      * @return PandoInterface
      */
-    public function remove(PandoInterface $pando):PandoInterface;
+    public function remove(self $pando): self;
 
     /**
      * @param PandoInterface $pando
+     *
      * @return PandoInterface
      */
-    public function setParent(PandoInterface $pando):PandoInterface;
+    public function setParent(self $pando): self;
 
     /**
      * @return PandoInterface|null
      */
-    public function getParent(): ?PandoInterface;
+    public function getParent(): ?self;
 
     /**
-     * @param int $position
-     * @return PandoInterface
      * @throws NoSuchEntityException
+     *
+     * @return PandoInterface
      */
-    public function getChildren(int $position): PandoInterface;
+    public function getChildren(int $position): self;
 
     /**
      * Get the children.
+     *
      * @return PandoInterface[]
      */
-    public function children():array;
+    public function children(): array;
 
     /**
-     * return a Traversable class used for iterate on the Pando children.
-     * @return PandoIterator
+     * get the Pando instance without root and leaf.
+     *
+     * @return mixed
+     */
+    public function getTrunk(): ?array;
+
+    /**
+     * return a Iterator class used for iterate on the Pando children.
      */
     public function getIterator(): PandoIterator;
 
     /**
-     * return a Traversable class used for iterate on the Pando children.
-     * with this specific function the iteration is reverse
-     * @return PandoIterator
+     * return a Iterator class used for iterate on the Pando children.
+     * with this specific function the iteration is reverse.
      */
     public function getReverseIterator(): PandoIterator;
 }

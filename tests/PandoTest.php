@@ -18,8 +18,8 @@ use \Pando\Pando;
 
 /**
  * @covers \Pando\Pando
- * @uses \Pando\Component\PandoIterator
- * @uses \Pando\Component\PandoData
+ * @uses   \Pando\Component\PandoIterator
+ * @uses   \Pando\Component\PandoData
  */
 final class PandoTest extends TestCase
 {
@@ -36,18 +36,6 @@ final class PandoTest extends TestCase
         $this->pando = null;
     }
 
-    /**
-     * @covers  \Pando\Pando::__construct
-     * @covers  \Pando\Component\PandoData::__construct
-     */
-    public function testCreatePando()
-    {
-        $pando = new Pando();
-        $this->assertInstanceOf(\Pando\Component\PandoInterface::class, $pando);
-
-        $pando = new Pando([new Pando()]);
-        $this->assertInstanceOf(\Pando\Component\PandoInterface::class, $pando);
-    }
 
     /**
      * @covers  \Pando\Pando::__construct
@@ -85,7 +73,7 @@ final class PandoTest extends TestCase
      * @covers  \Pando\Pando::count
      * @covers  \Pando\Pando::getIterator
      */
-    public function testEmptyPando()
+    public function testPandoEmptyPando()
     {
         $pando = new Pando();
         $this->assertEquals(new PandoIterator($pando), $this->pando->getIterator());
@@ -100,7 +88,7 @@ final class PandoTest extends TestCase
      * @covers  \Pando\Pando::isRoot
      * @covers  \Pando\Pando::isLeaf
      */
-    public function testgetParentPando()
+    public function testPandoGetParent()
     {
         $pando = new Pando();
         $pando2 = new Pando();
@@ -120,7 +108,7 @@ final class PandoTest extends TestCase
      * @covers  \Pando\Pando::degree
      * @covers  \Pando\Pando::count
      */
-    public function testDegree()
+    public function testPandoDegree()
     {
         $pando = new Pando();
         $pando2 = new Pando();
@@ -133,27 +121,40 @@ final class PandoTest extends TestCase
      * @covers  \Pando\Pando::__construct
      * @covers  \Pando\Component\PandoData::__construct
      * @covers  \Pando\Component\PandoIterator::__construct
-     * @covers  \Pando\Pando::getIterator
-     * @covers  \Pando\Pando::getReverseIterator
-     * @covers  \Pando\Component\PandoIterator::current
-     * @covers  \Pando\Component\PandoIterator::next
-     * @covers  \Pando\Component\PandoData::getData
+     * @covers  \Pando\Pando::getTrunk
      */
-    public function testIteratorReading()
+    public function testPandoGetTrunk()
     {
         $pando = new Pando();
         $pando2 = new Pando();
+        $pando2->setData('key', 'firstPando');
+        $pando->add($pando2);
+        $iterator = $pando->getIterator();
+        $this->assertEquals(['key' =>'firstPando'], $iterator->current()->getTrunk());
+        $this->assertEquals(null, $pando->getTrunk());
+    }
+
+
+    /**
+     * @covers  \Pando\Pando::__construct
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoIterator::__construct
+     * @covers  \Pando\Pando::setData
+     * @covers  \Pando\Pando::compare
+     */
+    public function testCompareFunction()
+    {
+        $pando = new Pando();
         $pando->setData('key', 'firstPando');
+        $pando2 = new Pando();
+        $pando2->setData('key', 'firstPando');
+
+        $reflectedClass = new \ReflectionClass('\Pando\Pando');
+        $method = $reflectedClass->getMethod('compare');
+        $method->setAccessible(true);
+        $this->assertTrue($method->invokeArgs($pando, [$pando2]));
+
         $pando2->setData('key', 'secondPando');
-        $this->pando->add($pando);
-        $this->pando->add($pando2);
-        $iterator = $this->pando->getIterator();
-        $this->assertEquals('firstPando', $iterator->current()->getData('key'));
-        $iterator->next();
-        $this->assertEquals('secondPando', $iterator->current()->getData('key'));
-        $reverse = $this->pando->getReverseIterator();
-        $this->assertEquals('secondPando', $reverse->current()->getData('key'));
-        $reverse->next();
-        $this->assertEquals('firstPando', $reverse->current()->getData('key'));
+        $this->assertFalse($method->invokeArgs($pando, [$pando2]));
     }
 }

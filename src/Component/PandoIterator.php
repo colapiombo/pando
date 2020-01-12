@@ -1,18 +1,21 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  *
+ * Pando 2020 — NOTICE OF MIT LICENSE
+ * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
  * @link    https://github.com/MarshallJamesRaynor/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
- * @package Component
+ *
  */
 
 namespace Pando\Component;
 
 class PandoIterator implements PandoIteratorInterface
 {
-
     /**
      * @var PandoInterface
      */
@@ -30,8 +33,6 @@ class PandoIterator implements PandoIteratorInterface
 
     /**
      * PandoIterator constructor.
-     * @param PandoInterface $pando
-     * @param bool $reverse
      */
     public function __construct(PandoInterface $pando, bool $reverse = false)
     {
@@ -41,7 +42,7 @@ class PandoIterator implements PandoIteratorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function current(): ?PandoInterface
     {
@@ -49,23 +50,23 @@ class PandoIterator implements PandoIteratorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function next(): void
     {
-        $this->position = $this->position + ($this->reverse ? -1 : 1);
+        $this->position += ($this->reverse ? -1 : 1);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function key(): int
     {
-        return is_null($this->position) ? 0 : $this->position;
+        return $this->position ?? 0;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function valid(): bool
     {
@@ -73,7 +74,7 @@ class PandoIterator implements PandoIteratorInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function rewind(): void
     {

@@ -1,33 +1,36 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  *
+ * Pando 2020 — NOTICE OF MIT LICENSE
+ * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
  * @link    https://github.com/MarshallJamesRaynor/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
- * @package Component
+ *
  */
 
 namespace Pando\Component;
 
 use Pando\Exception\InputException;
 
-class PandoData implements \ArrayAccess
+class PandoData implements PandoDataInterface
 {
     /**
-     * Object attributes
+     * Object attributes.
      *
      * @var array
      */
     protected $data = [];
 
     /**
-     * Constructor
+     * Constructor.
      *
      * By default is looking for first argument as array and assigns it as object attributes
      * This behavior may change in child classes
      *
-     * @param array $data
      * @throws InputException
      */
     public function __construct(array $data = [])
@@ -36,84 +39,57 @@ class PandoData implements \ArrayAccess
     }
 
     /**
-     * Add data to the object.
-     *
-     * Retains previous data in the object.
-     *
-     * @param array $arr
-     * @return $this
-     * @throws InputException
+     * {@inheritdoc}
      */
-    public function addData(array $arr):self
+    public function addData(array $arr): PandoDataInterface
     {
         foreach ($arr as $index => $value) {
-            $this->setData((string)$index, $value);
+            $this->setData((string) $index, $value);
         }
+
         return $this;
     }
 
     /**
-     * Overwrite data in the object.
-     *
-     * The $key parameter can be string or array.
-     * If $key is string, the attribute value will be overwritten by $value
-     *
-     * If $key is an array, it will overwrite all the data in the object.
-     *
-     * @param $key
-     * @param null $value
-     * @return $this
-     * @throws InputException
+     * {@inheritdoc}
      */
-    public function setData($key, $value = null):self
+    public function setData($key, $value = null): PandoDataInterface
     {
-        if ($key === (array)$key) {
+        if ($key === (array) $key) {
             $this->data = $key;
-        } elseif (is_string($key)) {
+        } elseif (\is_string($key)) {
             $this->data[$key] = $value;
         } else {
             throw new InputException('Invalid key has provided');
         }
+
         return $this;
     }
 
     /**
-     * @param null $key
-     * @return $this
-     * @throws InputException
+     * {@inheritdoc}
      */
-    public function unsetData($key = null):self
+    public function unsetData($key = null): PandoDataInterface
     {
-        if ($key === null) {
+        if (null === $key) {
             $this->setData([]);
-        } elseif (is_string($key)) {
-            if (isset($this->data[$key]) || array_key_exists($key, $this->data)) {
+        } elseif (\is_string($key)) {
+            if (isset($this->data[$key]) || \array_key_exists($key, $this->data)) {
                 unset($this->data[$key]);
             }
-        } elseif ($key === (array)$key) {
+        } elseif ($key === (array) $key) {
             foreach ($key as $element) {
                 $this->unsetData($element);
             }
         } else {
             throw new InputException('Invalid key has provided');
         }
+
         return $this;
     }
 
     /**
-     * Object data getter
-     *
-     * If $key is not defined will return all the data as an array.
-     * Otherwise it will return value of the element specified by $key.
-     * It is possible to use keys like a/b/c for access nested array data
-     *
-     * If $index is specified it will assume that attribute data is an array
-     * and retrieve corresponding member. If data is the string - it will be explode
-     * by new line character and converted to array.
-     *
-     * @param string $key
-     * @param string|int $index
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getData(string $key = '', $index = null)
     {
@@ -121,35 +97,31 @@ class PandoData implements \ArrayAccess
             return $this->data;
         }
 
-        /* process a/b/c key as ['a']['b']['c'] */
-        if (strpos($key, '/') !== false) {
+        // process a/b/c key as ['a']['b']['c']
+        if (false !== strpos($key, '/')) {
             $data = $this->getDataByPath($key);
         } else {
             $data = $this->get($key);
         }
 
-        if ($index !== null) {
-            if ($data === (array)$data) {
+        if (null !== $index) {
+            if ($data === (array) $data) {
                 $data = isset($data[$index]) ? $data[$index] : null;
-            } elseif (is_string($data)) {
+            } elseif (\is_string($data)) {
                 $data = explode(PHP_EOL, $data);
                 $data = isset($data[$index]) ? $data[$index] : null;
-            } elseif ($data instanceof PandoData) {
+            } elseif ($data instanceof self) {
                 $data = $data->getData($index);
             } else {
                 $data = null;
             }
         }
+
         return $data;
     }
 
     /**
-     * Get object data by path
-     *
-     * Method consider the path as chain of keys: a/b/c => ['a']['b']['c']
-     *
-     * @param string $path
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getDataByPath($path)
     {
@@ -157,22 +129,20 @@ class PandoData implements \ArrayAccess
         $data = $this->data;
 
         foreach ($keys as $key) {
-            if ((array)$data === $data && isset($data[$key])) {
+            if ((array) $data === $data && isset($data[$key])) {
                 $data = $data[$key];
-            } elseif ($data instanceof PandoData) {
+            } elseif ($data instanceof self) {
                 $data = $data->getDataByKey($key);
             } else {
                 return null;
             }
         }
+
         return $data;
     }
 
     /**
-     * Get object data by particular key
-     *
-     * @param string $key
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getDataByKey($key)
     {
@@ -180,44 +150,21 @@ class PandoData implements \ArrayAccess
     }
 
     /**
-     * Get value from data array without parse key
-     *
-     * @param   string $key
-     * @return  mixed
+     * {@inheritdoc}
      */
-    protected function get($key)
+    public function hasData($key = ''): bool
     {
-        if (isset($this->data[$key])) {
-            return $this->data[$key];
-        }
-        return null;
-    }
-
-
-
-    /**
-     * If $key is empty, checks whether there's any data in the object
-     *
-     * Otherwise checks if the specified attribute is set.
-     *
-     * @param string $key
-     * @return bool
-     */
-    public function hasData($key = ''):bool
-    {
-        if (empty($key) || !is_string($key)) {
+        if (empty($key) || !\is_string($key)) {
             return !empty($this->data);
         }
-        return array_key_exists($key, $this->data);
+
+        return \array_key_exists($key, $this->data);
     }
 
     /**
-     * Convert array of object data with to array with keys requested in $keys array
-     *
-     * @param array $keys array of required keys
-     * @return array
+     * {@inheritdoc}
      */
-    public function toArray(array $keys = []):array
+    public function toArray(array $keys = []): array
     {
         if (empty($keys)) {
             return $this->data;
@@ -231,83 +178,81 @@ class PandoData implements \ArrayAccess
                 $result[$key] = null;
             }
         }
+
         return $result;
     }
 
-
     /**
-     * Convert object data into string with predefined format
-     **
-     * @return string
+     * {@inheritdoc}
      */
-    public function toString():string
+    public function toString(): string
     {
         $result = implode(', ', $this->getData());
+
         return $result;
     }
 
     /**
-     * Checks whether the object is empty
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isEmpty():bool
+    public function isEmpty(): bool
     {
         if (empty($this->data)) {
             return true;
         }
+
         return false;
     }
 
     /**
-     * Implementation of \ArrayAccess::offsetSet()
-     *
-     * @param string $offset
-     * @param mixed $value
-     * @return void
-     * @link http://www.php.net/manual/en/arrayaccess.offsetset.php
+     * {@inheritdoc}
      */
-    public function offsetSet($offset, $value):void
+    public function offsetSet($offset, $value): void
     {
         $this->data[$offset] = $value;
     }
 
     /**
-     * Implementation of \ArrayAccess::offsetExists()
-     *
-     * @param string $offset
-     * @return bool
-     * @link http://www.php.net/manual/en/arrayaccess.offsetexists.php
+     * {@inheritdoc}
      */
     public function offsetExists($offset)
     {
-        return isset($this->data[$offset]) || array_key_exists($offset, $this->data);
+        return isset($this->data[$offset]) || \array_key_exists($offset, $this->data);
     }
 
     /**
-     * Implementation of \ArrayAccess::offsetUnset()
-     *
-     * @param string $offset
-     * @return void
-     * @link http://www.php.net/manual/en/arrayaccess.offsetunset.php
+     * {@inheritdoc}
      */
-    public function offsetUnset($offset):void
+    public function offsetUnset($offset): void
     {
         unset($this->data[$offset]);
     }
 
     /**
-     * Implementation of \ArrayAccess::offsetGet()
-     *
-     * @param string $offset
-     * @return mixed
-     * @link http://www.php.net/manual/en/arrayaccess.offsetget.php
+     * {@inheritdoc}
      */
     public function offsetGet($offset)
     {
         if (isset($this->data[$offset])) {
             return $this->data[$offset];
         }
+
+        return null;
+    }
+
+    /**
+     * Get value from data array without parse key.
+     *
+     * @param string $key
+     *
+     * @return mixed
+     */
+    protected function get($key)
+    {
+        if (isset($this->data[$key])) {
+            return $this->data[$key];
+        }
+
         return null;
     }
 }

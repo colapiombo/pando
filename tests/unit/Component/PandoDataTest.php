@@ -22,24 +22,10 @@ class PandoDataTest extends TestCase
 {
 
     /**
-     * @inheritDoc
-     */
-    protected function setUp(): void
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function tearDown(): void
-    {
-    }
-
-    /**
      * @covers  \Pando\Component\PandoData::__construct
      * @covers  \Pando\Component\PandoData::addData
      */
-    public function testConstructorSetDataVariableToEmptyArray()
+    public function testPandoDataConstructorSetDataVariableToEmptyArray()
     {
         $originalClassName = '\Pando\Component\PandoData';
         // Get mock, without the constructor being called
@@ -61,12 +47,21 @@ class PandoDataTest extends TestCase
 
     /**
      * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     */
+    public function testPandoDataStartWithEmptyArray()
+    {
+        $data = new  PandoData();
+        $this->assertEquals([], $data->getData());
+    }
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
      * @covers  \Pando\Component\PandoData::getData
      * @covers  \Pando\Component\PandoData::setData
      * @covers  \Pando\Component\PandoData::get
-
      */
-    public function testSetDataFunctionOverrideTheDataArray()
+    public function testPandoDataSetDataFunctionOverrideTheDataArray()
     {
         $data = new  PandoData();
         $data->setData('key', 'pippo');
@@ -82,7 +77,7 @@ class PandoDataTest extends TestCase
      * @covers  \Pando\Component\PandoData::get
 
      */
-    public function testaddDataOverrideNotAssociateArray()
+    public function testPandoDataAddDataOverrideNotAssociateArray()
     {
         $array = [1,2,3,4,5];
         $data = new  PandoData();
@@ -99,7 +94,7 @@ class PandoDataTest extends TestCase
      * @covers  \Pando\Component\PandoData::get
 
      */
-    public function testgetDataOutput()
+    public function testPandoDataGetDataOutput()
     {
         $data = new  PandoData();
         $this->assertEquals([], $data->getData());
@@ -120,7 +115,7 @@ class PandoDataTest extends TestCase
      * @covers  \Pando\Component\PandoData::setData
      * @covers  \Pando\Component\PandoData::get
      */
-    public function testgetDataIndexOutput()
+    public function testPandoDatagetDataIndexOutput()
     {
         $data = new  PandoData();
         $data2 = new  PandoData();
@@ -129,14 +124,15 @@ class PandoDataTest extends TestCase
             1,
             [1,2,3,4,5],
             'pippo
-franco
-superstar',
+             franco
+             giovanna',
             $data2
         ];
         $data->addData($array);
+
         $this->isNull($data->getData('', 1));
         $this->assertEquals(2, $data->getData('1', '1'));
-        $this->assertEquals('superstar', $data->getData('2', '2'));
+        $this->assertEquals('             giovanna', $data->getData('2', '2'));
         $this->assertEquals('value', $data->getData('3', 'key'));
         $this->assertEquals(null, $data->getData('test', 'test'));
     }
@@ -145,8 +141,9 @@ superstar',
      * @covers  \Pando\Component\PandoData::__construct
      * @covers  \Pando\Component\PandoData::setData
      * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Exception\InputException
      */
-    public function testsetDataException()
+    public function testPandoDatasetDataException()
     {
         $this->expectException(InputException::class);
         $data = new  PandoData();
@@ -159,9 +156,9 @@ superstar',
      * @covers  \Pando\Component\PandoData::addData
      * @covers  \Pando\Component\PandoData::setData
      * @covers  \Pando\Component\PandoData::get
-
+     * @covers  \Pando\Exception\InputException
      */
-    public function testunsetOutput()
+    public function testPandoDataunsetOutput()
     {
         $data = new  PandoData([0=>0]);
         $data->unsetData();
@@ -181,7 +178,7 @@ superstar',
      * @covers  \Pando\Component\PandoData::addData
      * @covers  \Pando\Component\PandoData::setData
      */
-    public function testGetDataByPath()
+    public function testPandoDataGetDataByPath()
     {
         $data = new  PandoData();
         $array = [1, 2, 3, 4, 5];
@@ -202,13 +199,30 @@ superstar',
      * @covers  \Pando\Component\PandoData::setData
      * @covers  \Pando\Component\PandoData::get
      */
-    public function testGetDataByKey()
+    public function testPandoDataGetDataByKey()
     {
         $data = new  PandoData();
         $array = [1,2,3,4,5];
         $data->addData($array);
         $this->assertEquals(2, $data->getDataByKey('1'));
         $this->assertEquals(null, $data->getDataByKey('6'));
+    }
+
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Component\PandoData::setData
+     * @covers  \Pando\Component\PandoData::getData
+     * @covers  \Pando\Component\PandoData::unsetData
+     */
+    public function testPandoDataUnsetArrayOfKeys()
+    {
+        $data = new  PandoData();
+        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $data->addData($array);
+        $data->unsetData(['Ben','Fly']) ;
+        $this->assertEquals(['Peter' => '35', 'Joe' => '43'], $data->getData());
     }
 
     /**
@@ -219,7 +233,7 @@ superstar',
      * @covers  \Pando\Component\PandoData::unsetData
 
      */
-    public function testHasData()
+    public function testPandoDataHasData()
     {
         $data = new  PandoData();
         $array = [1,2,3,4,5];
@@ -238,7 +252,7 @@ superstar',
      * @covers  \Pando\Component\PandoData::isEmpty
      * @covers  \Pando\Component\PandoData::unsetData
      */
-    public function testIsEmpty()
+    public function testPandoDataIsEmpty()
     {
         $data = new  PandoData();
         $data->setData('key', 'value');
@@ -254,12 +268,85 @@ superstar',
      * @covers  \Pando\Component\PandoData::toString
      * @covers  \Pando\Component\PandoData::getData
      */
-    public function testToString()
+    public function testPandoDataToString()
     {
         $data = new  PandoData();
         $array = [1,2,3,4,5];
         $data->addData($array);
         $this->assertIsString($data->toString());
         $this->assertEquals('1, 2, 3, 4, 5', $data->toString());
+    }
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Component\PandoData::setData
+     * @covers  \Pando\Component\PandoData::toArray
+     */
+    public function testPandoDataIsArrayFunction()
+    {
+        $data = new  PandoData();
+        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $data->addData($array);
+        $this->assertEquals($array, $data->toArray());
+        $this->assertEquals(['Joe' => '43'], $data->toArray(['Joe']));
+        $this->assertEquals(['Fly' => null], $data->toArray(['Fly']));
+    }
+
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Component\PandoData::offsetSet
+     * @covers  \Pando\Component\PandoData::getData
+     */
+    public function testPandoDataOffsetSet()
+    {
+        $data = new  PandoData();
+        $data->offsetSet('Peter', 35);
+        $this->assertEquals(['Peter' => '35'], $data->getData());
+    }
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Component\PandoData::offsetUnset
+     * @covers  \Pando\Component\PandoData::getData
+     */
+    public function testPandoDataOffsetUnset()
+    {
+        $data = new  PandoData();
+        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $data->addData($array);
+        $data->offsetUnset('Peter');
+        $this->assertEquals(['Ben' => '37', 'Joe' => '43'], $data->getData());
+    }
+
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Component\PandoData::offsetExists
+     */
+    public function testPandoDataOffsetExists()
+    {
+        $data = new  PandoData();
+        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $data->addData($array);
+        $this->assertTrue($data->offsetExists('Peter'));
+    }
+
+    /**
+     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\PandoData::addData
+     * @covers  \Pando\Component\PandoData::offsetGet
+     */
+    public function testPandoDataOffsetGet()
+    {
+        $data = new  PandoData();
+        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $data->addData($array);
+        $this->assertEquals('35', $data->offsetGet('Peter'));
+        $this->isNull($data->offsetGet('Fly'));
     }
 }

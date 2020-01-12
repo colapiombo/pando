@@ -64,6 +64,9 @@ stop: ## Stop the environment
 phpunit: ## start the phpunit
 	docker-compose exec php php vendor/bin/phpunit
 
+phpfixer: ## start fix php file and check header
+	docker-compose exec php php vendor/bin/php-cs-fixer -vvvv fix
+
 destroy: ## destroy the environment
 	docker-compose stop
 	@docker-compose -p $(PROJECT_NAME) down --remove-orphans -v --rmi all 2>/dev/null \
