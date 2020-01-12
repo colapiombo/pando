@@ -1,12 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 /**
- *  NOTICE OF LICENSE
  *
- *  This source file is released under commercial license by Lamia Oy.
+ * Pando 2020 — NOTICE OF MIT LICENSE
+ * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
+ * @link    https://github.com/MarshallJamesRaynor/pando
+ * @author  Paolo Combi <paolo@combi.li>
+ * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
  *
- * @copyright Copyright (c) 2019 Lamia Oy (https://lamia.fi)
  */
 
 namespace Pando\Component;
@@ -15,15 +18,14 @@ use Pando\Exception\InputException;
 
 interface PandoDataInterface extends \ArrayAccess
 {
-
     /**
      * Add data to the object.
      *
      * Retains previous data in the object.
      *
-     * @param array $arr
-     * @return PandoDataInterface
      * @throws InputException
+     *
+     * @return PandoDataInterface
      */
     public function addData(array $arr): self;
 
@@ -64,7 +66,6 @@ interface PandoDataInterface extends \ArrayAccess
      * and retrieve corresponding member. If data is the string - it will be explode
      * by new line character and converted to array.
      *
-     * @param string $key
      * @param string|int $index
      *
      * @return mixed
@@ -97,7 +98,6 @@ interface PandoDataInterface extends \ArrayAccess
      * Otherwise checks if the specified attribute is set.
      *
      * @param string $key
-     * @return bool
      */
     public function hasData($key = ''): bool;
 
@@ -105,19 +105,16 @@ interface PandoDataInterface extends \ArrayAccess
      * Convert array of object data with to array with keys requested in $keys array.
      *
      * @param array $keys array of required keys
-     * @return array
      */
     public function toArray(array $keys = []): array;
 
     /**
-     * Convert object data into string with predefined format
-     * @return string
+     * Convert object data into string with predefined format.
      */
     public function toString(): string;
 
     /**
      * Checks whether the object is empty.
-     * @return bool
      */
     public function isEmpty(): bool;
 
@@ -161,6 +158,4 @@ interface PandoDataInterface extends \ArrayAccess
      * @see http://www.php.net/manual/en/arrayaccess.offsetget.php
      */
     public function offsetGet($offset);
-
-
 }

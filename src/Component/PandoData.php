@@ -39,7 +39,7 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function addData(array $arr): PandoDataInterface
     {
@@ -51,7 +51,7 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setData($key, $value = null): PandoDataInterface
     {
@@ -67,7 +67,7 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function unsetData($key = null): PandoDataInterface
     {
@@ -89,7 +89,7 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getData(string $key = '', $index = null)
     {
@@ -121,7 +121,7 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getDataByPath($path)
     {
@@ -142,16 +142,15 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getDataByKey($key)
     {
         return $this->get($key);
     }
 
-
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function hasData($key = ''): bool
     {
@@ -163,7 +162,7 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function toArray(array $keys = []): array
     {
@@ -184,7 +183,7 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function toString(): string
     {
@@ -194,7 +193,7 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function isEmpty(): bool
     {
@@ -206,7 +205,7 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function offsetSet($offset, $value): void
     {
@@ -214,7 +213,7 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function offsetExists($offset)
     {
@@ -222,7 +221,7 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function offsetUnset($offset): void
     {
@@ -230,7 +229,7 @@ class PandoData implements PandoDataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function offsetGet($offset)
     {
