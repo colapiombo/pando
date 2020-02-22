@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/PavelKingInTheNorth/pando.svg?branch=master)](https://travis-ci.org/PavelKingInTheNorth/pando)
-[![Coverage Status](https://coveralls.io/repos/github/PavelKingInTheNorth/pando/badge.svg)](https://coveralls.io/github/PavelKingInTheNorth/pando)
+[![Build Status](https://travis-ci.org/colapiombo/pando.svg?branch=master)](https://travis-ci.org/colapiombo/pando)
+[![Coverage Status](https://coveralls.io/repos/github/colapiombo/pando/badge.svg)](https://coveralls.io/github/colapiombo/pando)
 ![License](https://poser.pugx.org/slim/psr7/license)
 # Pando
 
