@@ -6,9 +6,9 @@ declare(strict_types=1);
  *
  * Pando 2020 — NOTICE OF MIT LICENSE
  * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
- * @link    https://github.com/MarshallJamesRaynor/pando
+ * @link    https://github.com/PavelKingInTheNorth/pando
  * @author  Paolo Combi <paolo@combi.li>
- * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
+ * @license https://github.com/PavelKingInTheNorth/pando/blob/master/LICENSE (MIT License)
  *
  */
 
@@ -16,7 +16,7 @@ namespace Pando\Component;
 
 use Pando\Exception\InputException;
 
-interface PandoDataInterface extends \ArrayAccess
+interface DataSourceInterface extends \ArrayAccess
 {
     /**
      * Add data to the object.
@@ -25,7 +25,7 @@ interface PandoDataInterface extends \ArrayAccess
      *
      * @throws InputException
      *
-     * @return PandoDataInterface
+     * @return DataSourceInterface
      */
     public function addData(array $arr): self;
 
@@ -42,7 +42,7 @@ interface PandoDataInterface extends \ArrayAccess
      *
      * @throws InputException
      *
-     * @return PandoDataInterface
+     * @return DataSourceInterface
      */
     public function setData($key, $value = null): self;
 
@@ -51,7 +51,7 @@ interface PandoDataInterface extends \ArrayAccess
      *
      * @throws InputException
      *
-     * @return PandoDataInterface
+     * @return DataSourceInterface
      */
     public function unsetData($key = null): self;
 
