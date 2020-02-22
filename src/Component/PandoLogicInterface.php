@@ -52,7 +52,7 @@ interface PandoLogicInterface
      *
      * @param PandoInterface|null $pando       the node for which to return the node's sibling nodes
      * @param bool                $includeSelf whether the node given as argument should also 
-                                               be present in the returned array
+     *                                         be present in the returned array
      * @param bool|null           $ageSiblings if the value is set NULL  will be ingnored ;
      *                                         if the value is set TRUE  return the following Pando;
      *                                         if the value is set FALSE return the previous Pando,
