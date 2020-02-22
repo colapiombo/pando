@@ -14,6 +14,6 @@ declare(strict_types=1);
 
 namespace  Pando\Exception;
 
-class InputException extends \Exception
+class InputException extends PandoException
 {
 }

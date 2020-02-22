@@ -14,6 +14,6 @@ declare(strict_types=1);
 
 namespace  Pando\Exception;
 
-class NoSuchEntityException extends \Exception
+class NoSuchEntityException extends PandoException
 {
 }

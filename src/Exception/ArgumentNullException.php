@@ -14,6 +14,6 @@ declare(strict_types=1);
 
 namespace Pando\Exception;
 
-class ArgumentNullException extends \Exception
+class ArgumentNullException extends PandoException
 {
 }
