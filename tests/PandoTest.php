@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Test;
 
-use Pando\Component\PandoIterator;
 use Pando\Exception\NoSuchEntityException;
 use Pando\Pando;
 use PHPUnit\Framework\TestCase;
@@ -75,8 +74,6 @@ final class PandoTest extends TestCase
      */
     public function testPandoEmptyPando()
     {
-        $pando = new Pando();
-        $this->assertSame(new PandoIterator($pando), $this->pando->getIterator());
         $this->assertSame(0, $this->pando->count());
     }
 
