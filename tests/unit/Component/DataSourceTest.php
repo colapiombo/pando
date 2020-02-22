@@ -1,13 +1,16 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  *
- * @link    https://github.com/MarshallJamesRaynor/pando
+ * Pando 2020 — NOTICE OF MIT LICENSE
+ * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
+ * @link    https://github.com/colapiombo/pando
  * @author  Paolo Combi <paolo@combi.li>
- * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
- * @package Component
+ * @license https://github.com/colapiombo/pando/blob/master/LICENSE (MIT License)
+ *
  */
-
 
 namespace Test;
 
@@ -20,7 +23,6 @@ use PHPUnit\Framework\TestCase;
  */
 class DataSourceTest extends TestCase
 {
-
     /**
      * @covers  \Pando\Component\DataSource::__construct
      * @covers  \Pando\Component\DataSource::addData
@@ -52,7 +54,7 @@ class DataSourceTest extends TestCase
     public function testDataSourceStartWithEmptyArray()
     {
         $data = new DataSource();
-        $this->assertEquals([], $data->getData());
+        $this->assertSame([], $data->getData());
     }
 
     /**
@@ -66,7 +68,7 @@ class DataSourceTest extends TestCase
         $data = new DataSource();
         $data->setData('key', 'pippo');
         $data->setData('key', 'value');
-        $this->assertEquals('value', $data->getData('key'));
+        $this->assertSame('value', $data->getData('key'));
     }
 
     /**
@@ -75,15 +77,14 @@ class DataSourceTest extends TestCase
      * @covers  \Pando\Component\DataSource::addData
      * @covers  \Pando\Component\DataSource::setData
      * @covers  \Pando\Component\DataSource::get
-
      */
     public function testDataSourceAddDataOverrideNotAssociateArray()
     {
-        $array = [1,2,3,4,5];
+        $array = [1, 2, 3, 4, 5];
         $data = new DataSource();
         $data->addData($array);
         $data->addData($array);
-        $this->assertEquals($array, $data->getData());
+        $this->assertSame($array, $data->getData());
     }
 
     /**
@@ -92,21 +93,20 @@ class DataSourceTest extends TestCase
      * @covers  \Pando\Component\DataSource::getDataByPath
      * @covers  \Pando\Component\DataSource::setData
      * @covers  \Pando\Component\DataSource::get
-
      */
     public function testPDataSourceGetDataOutput()
     {
         $data = new DataSource();
-        $this->assertEquals([], $data->getData());
+        $this->assertSame([], $data->getData());
         $data->setData('0', 0);
-        $this->assertEquals([0=>0], $data->getData());
-        $data->setData('1', "a");
-        $this->assertEquals([0=>0, 1=>"a"], $data->getData());
+        $this->assertSame([0=>0], $data->getData());
+        $data->setData('1', 'a');
+        $this->assertSame([0=>0, 1=>'a'], $data->getData());
         $data->setData('2', new \stdClass());
         $data2 = new DataSource();
         $data2->setData('key', 'value');
         $data->addData(['3'=>$data2]);
-        $this->assertEquals('value', $data->getData('3/key'));
+        $this->assertSame('value', $data->getData('3/key'));
     }
 
     /**
@@ -122,19 +122,19 @@ class DataSourceTest extends TestCase
         $data2->setData('key', 'value');
         $array = [
             1,
-            [1,2,3,4,5],
+            [1, 2, 3, 4, 5],
             'pippo
              franco
              giovanna',
-            $data2
+            $data2,
         ];
         $data->addData($array);
 
         $this->isNull($data->getData('', 1));
-        $this->assertEquals(2, $data->getData('1', '1'));
-        $this->assertEquals('             giovanna', $data->getData('2', '2'));
-        $this->assertEquals('value', $data->getData('3', 'key'));
-        $this->assertEquals(null, $data->getData('test', 'test'));
+        $this->assertSame(2, $data->getData('1', '1'));
+        $this->assertSame('             giovanna', $data->getData('2', '2'));
+        $this->assertSame('value', $data->getData('3', 'key'));
+        $this->assertNull($data->getData('test', 'test'));
     }
 
     /**
@@ -163,14 +163,13 @@ class DataSourceTest extends TestCase
         $data = new  DataSource([0=>0]);
         $data->unsetData();
         $this->assertEmpty($data->getData());
-        $array = [1,2,3,4,5];
+        $array = [1, 2, 3, 4, 5];
         $data->addData($array);
         $this->expectException(InputException::class);
         $data->unsetData(2);
         $data->unsetData('2');
-        $this->assertNotEquals([1,2,4,5], $data->getData());
+        $this->assertNotSame([1, 2, 4, 5], $data->getData());
     }
-
 
     /**
      * @covers  \Pando\Component\DataSource::__construct
@@ -183,13 +182,13 @@ class DataSourceTest extends TestCase
         $data = new  DataSource();
         $array = [1, 2, 3, 4, 5];
         $data->addData($array);
-        $this->assertEquals(null, $data->getDataByPath('1/2'));
-        $this->assertEquals(2, $data->getDataByPath('1'));
+        $this->assertNull($data->getDataByPath('1/2'));
+        $this->assertSame(2, $data->getDataByPath('1'));
         $data2 = new  DataSource();
         $data2->setData('key', 'value');
         $data->addData([$data2]);
         $data->getDataByPath('0/key');
-        $this->assertEquals('value', $data->getDataByPath('0/key'));
+        $this->assertSame('value', $data->getDataByPath('0/key'));
     }
 
     /**
@@ -202,12 +201,11 @@ class DataSourceTest extends TestCase
     public function testDataSourceGetDataByKey()
     {
         $data = new  DataSource();
-        $array = [1,2,3,4,5];
+        $array = [1, 2, 3, 4, 5];
         $data->addData($array);
-        $this->assertEquals(2, $data->getDataByKey('1'));
-        $this->assertEquals(null, $data->getDataByKey('6'));
+        $this->assertSame(2, $data->getDataByKey('1'));
+        $this->assertNull($data->getDataByKey('6'));
     }
-
 
     /**
      * @covers  \Pando\Component\DataSource::__construct
@@ -219,10 +217,10 @@ class DataSourceTest extends TestCase
     public function testDataSourceUnsetArrayOfKeys()
     {
         $data = new  DataSource();
-        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $array = ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
         $data->addData($array);
-        $data->unsetData(['Ben','Fly']) ;
-        $this->assertEquals(['Peter' => '35', 'Joe' => '43'], $data->getData());
+        $data->unsetData(['Ben', 'Fly']);
+        $this->assertSame(['Peter' => '35', 'Joe' => '43'], $data->getData());
     }
 
     /**
@@ -231,12 +229,11 @@ class DataSourceTest extends TestCase
      * @covers  \Pando\Component\DataSource::addData
      * @covers  \Pando\Component\DataSource::setData
      * @covers  \Pando\Component\DataSource::unsetData
-
      */
     public function testDataSourceHasData()
     {
         $data = new  DataSource();
-        $array = [1,2,3,4,5];
+        $array = [1, 2, 3, 4, 5];
         $data->addData($array);
         $this->assertTrue($data->hasData('1'));
         $this->assertFalse($data->hasData('asdasd'));
@@ -271,10 +268,10 @@ class DataSourceTest extends TestCase
     public function testDataSourceToString()
     {
         $data = new  DataSource();
-        $array = [1,2,3,4,5];
+        $array = [1, 2, 3, 4, 5];
         $data->addData($array);
         $this->assertIsString($data->toString());
-        $this->assertEquals('1, 2, 3, 4, 5', $data->toString());
+        $this->assertSame('1, 2, 3, 4, 5', $data->toString());
     }
 
     /**
@@ -286,13 +283,12 @@ class DataSourceTest extends TestCase
     public function testDataSourceIsArrayFunction()
     {
         $data = new  DataSource();
-        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $array = ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
         $data->addData($array);
-        $this->assertEquals($array, $data->toArray());
-        $this->assertEquals(['Joe' => '43'], $data->toArray(['Joe']));
-        $this->assertEquals(['Fly' => null], $data->toArray(['Fly']));
+        $this->assertSame($array, $data->toArray());
+        $this->assertSame(['Joe' => '43'], $data->toArray(['Joe']));
+        $this->assertSame(['Fly' => null], $data->toArray(['Fly']));
     }
-
 
     /**
      * @covers  \Pando\Component\DataSource::__construct
@@ -303,8 +299,8 @@ class DataSourceTest extends TestCase
     public function testDataSourceOffsetSet()
     {
         $data = new  DataSource();
-        $data->offsetSet('Peter', 35);
-        $this->assertEquals(['Peter' => '35'], $data->getData());
+        $data->offsetSet('Peter', '35');
+        $this->assertSame(['Peter' => '35'], $data->getData());
     }
 
     /**
@@ -316,12 +312,11 @@ class DataSourceTest extends TestCase
     public function testDataSourceOffsetUnset()
     {
         $data = new  DataSource();
-        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $array = ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
         $data->addData($array);
         $data->offsetUnset('Peter');
-        $this->assertEquals(['Ben' => '37', 'Joe' => '43'], $data->getData());
+        $this->assertSame(['Ben' => '37', 'Joe' => '43'], $data->getData());
     }
-
 
     /**
      * @covers  \Pando\Component\DataSource::__construct
@@ -331,7 +326,7 @@ class DataSourceTest extends TestCase
     public function testDataSourceOffsetExists()
     {
         $data = new  DataSource();
-        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $array = ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
         $data->addData($array);
         $this->assertTrue($data->offsetExists('Peter'));
     }
@@ -344,9 +339,9 @@ class DataSourceTest extends TestCase
     public function testDataSourceOffsetGet()
     {
         $data = new  DataSource();
-        $array= ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
+        $array = ['Peter' => '35', 'Ben' => '37', 'Joe' => '43'];
         $data->addData($array);
-        $this->assertEquals('35', $data->offsetGet('Peter'));
+        $this->assertSame('35', $data->offsetGet('Peter'));
         $this->isNull($data->offsetGet('Fly'));
     }
 }

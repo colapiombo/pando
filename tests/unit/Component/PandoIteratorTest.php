@@ -1,28 +1,31 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  *
- * @link    https://github.com/MarshallJamesRaynor/pando
+ * Pando 2020 — NOTICE OF MIT LICENSE
+ * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
+ * @link    https://github.com/colapiombo/pando
  * @author  Paolo Combi <paolo@combi.li>
- * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
- * @package Component
+ * @license https://github.com/colapiombo/pando/blob/master/LICENSE (MIT License)
+ *
  */
 
 namespace Test\Component;
 
+use Pando\Component\PandoIterator;
 use Pando\Pando;
 use PHPStan\Testing\TestCase;
-use \Pando\Component\PandoIterator;
 
 /**
  * @covers \Pando\Component\PandoIterator
+ *
  * @uses \Pando\Pando
  * @uses \Pando\Component\DataSource
  */
 class PandoIteratorTest extends TestCase
 {
-
-
     /**
      * @covers \Pando\Component\PandoIterator
      * @covers \Pando\Pando::__construct
@@ -31,7 +34,7 @@ class PandoIteratorTest extends TestCase
     public function testPandoIteratorStartFromZero()
     {
         $iterator = new PandoIterator(new Pando());
-        $this->assertEquals(0, $iterator->key());
+        $this->assertSame(0, $iterator->key());
     }
 
     /**
@@ -42,7 +45,7 @@ class PandoIteratorTest extends TestCase
     public function testPandoIteratorReturnMinusOneWithoutChildren()
     {
         $iterator = new PandoIterator(new Pando(), true);
-        $this->assertEquals(-1, $iterator->key());
+        $this->assertSame(-1, $iterator->key());
     }
 
     /**
@@ -58,9 +61,8 @@ class PandoIteratorTest extends TestCase
         $pando->add($pandoChildren);
         $pando->add($pandoChildren2);
         $iterator = new PandoIterator($pando, true);
-        $this->assertEquals(1, $iterator->key());
+        $this->assertSame(1, $iterator->key());
     }
-
 
     /**
      * @covers \Pando\Component\PandoIterator
@@ -71,7 +73,7 @@ class PandoIteratorTest extends TestCase
     {
         $iterator = new PandoIterator(new Pando());
         $iterator->next();
-        $this->assertEquals(1, $iterator->key());
+        $this->assertSame(1, $iterator->key());
     }
 
     /**
@@ -87,7 +89,7 @@ class PandoIteratorTest extends TestCase
         $iterator = new PandoIterator(new Pando());
         $iterator->next();
         $iterator->next();
-        $this->assertEquals(null, $iterator->current());
+        $this->assertNull($iterator->current());
     }
 
     /**
@@ -104,7 +106,7 @@ class PandoIteratorTest extends TestCase
         $iterator->next();
         $iterator->next();
         $iterator->next();
-        $this->assertEquals(false, $iterator->valid());
+        $this->assertFalse($iterator->valid());
     }
 
     /**
@@ -119,7 +121,7 @@ class PandoIteratorTest extends TestCase
     {
         $iterator = new PandoIterator(new Pando());
         $iterator->rewind();
-        $this->assertEquals(0, $iterator->key());
+        $this->assertSame(0, $iterator->key());
     }
 
     /**
@@ -137,7 +139,7 @@ class PandoIteratorTest extends TestCase
         $pando->add(new Pando());
         $iterator = new PandoIterator($pando);
         $current = $iterator->current();
-        $this->assertEquals($pando->children()[0], $current);
+        $this->assertSame($pando->children()[0], $current);
     }
 
     /**
@@ -160,12 +162,12 @@ class PandoIteratorTest extends TestCase
         $pando->add($pando2);
         $pando->add($pando3);
         $iterator = $pando->getIterator();
-        $this->assertEquals('firstPando', $iterator->current()->getData('key'));
+        $this->assertSame('firstPando', $iterator->current()->getData('key'));
         $iterator->next();
-        $this->assertEquals('secondPando', $iterator->current()->getData('key'));
+        $this->assertSame('secondPando', $iterator->current()->getData('key'));
         $reverse = $pando->getReverseIterator();
-        $this->assertEquals('secondPando', $reverse->current()->getData('key'));
+        $this->assertSame('secondPando', $reverse->current()->getData('key'));
         $reverse->next();
-        $this->assertEquals('firstPando', $reverse->current()->getData('key'));
+        $this->assertSame('firstPando', $reverse->current()->getData('key'));
     }
 }
