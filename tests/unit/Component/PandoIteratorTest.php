@@ -17,7 +17,7 @@ use \Pando\Component\PandoIterator;
 /**
  * @covers \Pando\Component\PandoIterator
  * @uses \Pando\Pando
- * @uses \Pando\Component\PandoData
+ * @uses \Pando\Component\DataSource
  */
 class PandoIteratorTest extends TestCase
 {
@@ -64,7 +64,7 @@ class PandoIteratorTest extends TestCase
 
     /**
      * @covers \Pando\Component\PandoIterator
-     * @covers \Pando\Component\PandoData::__construct
+     * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Pando::__construct
      */
     public function testPandoIteratorKeyReturnTheFirstPosition()
@@ -77,7 +77,7 @@ class PandoIteratorTest extends TestCase
     /**
      * @covers \Pando\Component\PandoIterator::next
      * @covers \Pando\Component\PandoIterator::current
-     * @covers \Pando\Component\PandoData::__construct
+     * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Component\PandoIterator::__construct
      * @covers \Pando\Pando::__construct
      * @covers \Pando\Pando::children
@@ -93,7 +93,7 @@ class PandoIteratorTest extends TestCase
     /**
      * @covers \Pando\Component\PandoIterator::next
      * @covers \Pando\Component\PandoIterator::valid
-     * @covers \Pando\Component\PandoData::__construct
+     * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Component\PandoIterator::__construct
      * @covers \Pando\Pando::__construct
      * @covers \Pando\Pando::children
@@ -110,7 +110,7 @@ class PandoIteratorTest extends TestCase
     /**
      * @covers \Pando\Component\PandoIterator::rewind
      * @covers \Pando\Component\PandoIterator::key
-     * @covers \Pando\Component\PandoData::__construct
+     * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Component\PandoIterator::__construct
      * @covers \Pando\Pando::__construct
      * @covers \Pando\Pando::children
@@ -124,7 +124,7 @@ class PandoIteratorTest extends TestCase
 
     /**
      * @covers \Pando\Component\PandoIterator::current
-     * @covers \Pando\Component\PandoData::__construct
+     * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Component\PandoIterator::__construct
      * @covers \Pando\Pando::__construct
      * @covers \Pando\Pando::children
@@ -142,13 +142,13 @@ class PandoIteratorTest extends TestCase
 
     /**
      * @covers  \Pando\Pando::__construct
-     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\DataSource::__construct
      * @covers  \Pando\Component\PandoIterator::__construct
      * @covers  \Pando\Pando::getIterator
      * @covers  \Pando\Pando::getReverseIterator
      * @covers  \Pando\Component\PandoIterator::current
      * @covers  \Pando\Component\PandoIterator::next
-     * @covers  \Pando\Component\PandoData::getData
+     * @covers  \Pando\Component\DataSource::getData
      */
     public function testIteratorReading()
     {

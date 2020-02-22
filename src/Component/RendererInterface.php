@@ -12,8 +12,12 @@ declare(strict_types=1);
  *
  */
 
-namespace  Pando\Exception;
+namespace Pando\Component;
 
-class NoSuchEntityException extends PandoException
+interface RendererInterface
 {
+    /**
+     * Render source text.
+     */
+    public function render(array $source, array $arguments): string;
 }

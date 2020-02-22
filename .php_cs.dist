@@ -3,9 +3,9 @@ $year = date('Y');
 $header = "
 Pando $year — NOTICE OF MIT LICENSE
 @copyright 2019-$year (c) Paolo Combi (https://combi.li)
-@link    https://github.com/MarshallJamesRaynor/pando
+@link    https://github.com/PavelKingInTheNorth/pando
 @author  Paolo Combi <paolo@combi.li>
-@license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
+@license https://github.com/PavelKingInTheNorth/pando/blob/master/LICENSE (MIT License)
 ";
 
 $config = PhpCsFixer\Config::create()

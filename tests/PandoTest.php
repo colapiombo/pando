@@ -19,7 +19,7 @@ use \Pando\Pando;
 /**
  * @covers \Pando\Pando
  * @uses   \Pando\Component\PandoIterator
- * @uses   \Pando\Component\PandoData
+ * @uses   \Pando\Component\DataSource
  */
 final class PandoTest extends TestCase
 {
@@ -39,7 +39,7 @@ final class PandoTest extends TestCase
 
     /**
      * @covers  \Pando\Pando::__construct
-     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\DataSource::__construct
      * @covers  \Pando\Component\PandoIterator::__construct
      * @covers  \Pando\Pando::getChildren
      */
@@ -52,7 +52,7 @@ final class PandoTest extends TestCase
 
     /**
      * @covers  \Pando\Pando::__construct
-     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\DataSource::__construct
      * @covers  \Pando\Component\PandoIterator::__construct
      * @covers  \Pando\Pando::getChildren
      * @covers  \Pando\Pando::add
@@ -68,7 +68,7 @@ final class PandoTest extends TestCase
 
     /**
      * @covers  \Pando\Pando::__construct
-     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\DataSource::__construct
      * @covers  \Pando\Component\PandoIterator::__construct
      * @covers  \Pando\Pando::count
      * @covers  \Pando\Pando::getIterator
@@ -82,7 +82,7 @@ final class PandoTest extends TestCase
 
     /**
      * @covers  \Pando\Pando::__construct
-     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\DataSource::__construct
      * @covers  \Pando\Component\PandoIterator::__construct
      * @covers  \Pando\Pando::getIterator
      * @covers  \Pando\Pando::isRoot
@@ -103,7 +103,7 @@ final class PandoTest extends TestCase
 
     /**
      * @covers  \Pando\Pando::__construct
-     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\DataSource::__construct
      * @covers  \Pando\Component\PandoIterator::__construct
      * @covers  \Pando\Pando::degree
      * @covers  \Pando\Pando::count
@@ -119,7 +119,7 @@ final class PandoTest extends TestCase
 
     /**
      * @covers  \Pando\Pando::__construct
-     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\DataSource::__construct
      * @covers  \Pando\Component\PandoIterator::__construct
      * @covers  \Pando\Pando::getTrunk
      */
@@ -137,7 +137,7 @@ final class PandoTest extends TestCase
 
     /**
      * @covers  \Pando\Pando::__construct
-     * @covers  \Pando\Component\PandoData::__construct
+     * @covers  \Pando\Component\DataSource::__construct
      * @covers  \Pando\Component\PandoIterator::__construct
      * @covers  \Pando\Pando::setData
      * @covers  \Pando\Pando::compare

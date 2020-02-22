@@ -6,9 +6,9 @@ declare(strict_types=1);
  *
  * Pando 2020 — NOTICE OF MIT LICENSE
  * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
- * @link    https://github.com/MarshallJamesRaynor/pando
+ * @link    https://github.com/PavelKingInTheNorth/pando
  * @author  Paolo Combi <paolo@combi.li>
- * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
+ * @license https://github.com/PavelKingInTheNorth/pando/blob/master/LICENSE (MIT License)
  *
  */
 
@@ -16,7 +16,7 @@ namespace Pando\Component;
 
 use Pando\Exception\InputException;
 
-class PandoData implements PandoDataInterface
+class DataSource implements DataSourceInterface
 {
     /**
      * Object attributes.
@@ -41,7 +41,7 @@ class PandoData implements PandoDataInterface
     /**
      * {@inheritdoc}
      */
-    public function addData(array $arr): PandoDataInterface
+    public function addData(array $arr): DataSourceInterface
     {
         foreach ($arr as $index => $value) {
             $this->setData((string) $index, $value);
@@ -53,14 +53,14 @@ class PandoData implements PandoDataInterface
     /**
      * {@inheritdoc}
      */
-    public function setData($key, $value = null): PandoDataInterface
+    public function setData($key, $value = null): DataSourceInterface
     {
         if ($key === (array) $key) {
             $this->data = $key;
         } elseif (\is_string($key)) {
             $this->data[$key] = $value;
         } else {
-            throw new InputException('Invalid key has provided');
+            throw new InputException(new Phrase('Invalid key has provided', ['key'=> $key]));
         }
 
         return $this;
@@ -69,7 +69,7 @@ class PandoData implements PandoDataInterface
     /**
      * {@inheritdoc}
      */
-    public function unsetData($key = null): PandoDataInterface
+    public function unsetData($key = null): DataSourceInterface
     {
         if (null === $key) {
             $this->setData([]);
@@ -82,7 +82,7 @@ class PandoData implements PandoDataInterface
                 $this->unsetData($element);
             }
         } else {
-            throw new InputException('Invalid key has provided');
+            throw new InputException(new Phrase('Invalid key has provided', ['key'=> $key]));
         }
 
         return $this;
@@ -106,10 +106,10 @@ class PandoData implements PandoDataInterface
 
         if (null !== $index) {
             if ($data === (array) $data) {
-                $data = isset($data[$index]) ? $data[$index] : null;
+                $data = $data[$index] ?? null;
             } elseif (\is_string($data)) {
                 $data = explode(PHP_EOL, $data);
-                $data = isset($data[$index]) ? $data[$index] : null;
+                $data = $data[$index] ?? null;
             } elseif ($data instanceof self) {
                 $data = $data->getData($index);
             } else {
