@@ -6,22 +6,23 @@ declare(strict_types=1);
  *
  * Pando 2020 — NOTICE OF MIT LICENSE
  * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
- * @link    https://github.com/MarshallJamesRaynor/pando
+ * @link    https://github.com/PavelKingInTheNorth/pando
  * @author  Paolo Combi <paolo@combi.li>
- * @license https://github.com/MarshallJamesRaynor/pando/blob/master/LICENSE (MIT License)
+ * @license https://github.com/PavelKingInTheNorth/pando/blob/master/LICENSE (MIT License)
  *
  */
 
 namespace Pando;
 
-use Pando\Component\PandoData;
+use Pando\Component\DataSource;
 use Pando\Component\PandoInterface;
 use Pando\Component\PandoIterator;
 use Pando\Component\PandoLogicInterface;
+use Pando\Component\Phrase;
 use Pando\Exception\ArgumentNullException;
 use Pando\Exception\NoSuchEntityException;
 
-class Pando extends PandoData implements PandoInterface, PandoLogicInterface
+class Pando extends DataSource implements PandoInterface, PandoLogicInterface
 {
     /**
      * @var PandoInterface
@@ -131,7 +132,7 @@ class Pando extends PandoData implements PandoInterface, PandoLogicInterface
             return $this->children[$position];
         }
 
-        throw new NoSuchEntityException("No such entity with position $position");
+        throw new NoSuchEntityException(new Phrase('No such entity with position', ['position' => $position]));
     }
 
     /**
@@ -142,7 +143,7 @@ class Pando extends PandoData implements PandoInterface, PandoLogicInterface
         $wanted = [];
 
         if (null === $pando->getTrunk()) {
-            throw new ArgumentNullException('Pando cannot be set empty');
+            throw new ArgumentNullException(new Phrase('Pando cannot be set empty'));
         }
 
         if ($this->compare($pando)) {
@@ -175,9 +176,12 @@ class Pando extends PandoData implements PandoInterface, PandoLogicInterface
     /**
      * {@inheritdoc}
      */
-    public function getSibblings(PandoInterface $pando, bool $self = false): array
+    public function getSibblings(PandoInterface $pando = null, bool $self = false): array
     {
-        // TODO: Implement getSibblings() method.
+        if (null === $pando && $this->isRoot()) {
+            return [];
+        }
+
         return [];
     }
 
