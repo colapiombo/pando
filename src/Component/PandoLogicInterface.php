@@ -51,7 +51,7 @@ interface PandoLogicInterface
      *  no siblings, or throws an error (if the node doesn't exist or is it empty).
      *
      * @param PandoInterface|null $pando       the node for which to return the node's sibling nodes
-     * @param bool                $includeSelf whether the node given as argument should also 
+     * @param bool                $includeSelf whether the node given as argument should also
      *                                         be present in the returned array
      * @param bool|null           $ageSiblings if the value is set NULL  will be ingnored ;
      *                                         if the value is set TRUE  return the following Pando;
