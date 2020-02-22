@@ -1,5 +1,5 @@
 {
-  "name": "PavelKingInTheNorth/pando",
+  "name": "pavelkinginthenorth/pando",
   "description": "PHP library for handling tree structures  ",
   "keywords": [
     "php",
@@ -10,7 +10,7 @@
     "adminer",
     "tree"
   ],
-  "homepage": "https://github.com/PavelKingInTheNorth/tree-data-structure",
+  "homepage": "https://github.com/PavelKingInTheNorth/pando",
   "license": "MIT",
   "authors": [
     {
