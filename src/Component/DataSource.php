@@ -60,7 +60,7 @@ class DataSource implements DataSourceInterface
         } elseif (\is_string($key)) {
             $this->data[$key] = $value;
         } else {
-            throw new InputException(new Phrase('Invalid key has provided'));
+            throw new InputException(new Phrase('Invalid key has provided', ['key'=> $key]));
         }
 
         return $this;
@@ -82,7 +82,7 @@ class DataSource implements DataSourceInterface
                 $this->unsetData($element);
             }
         } else {
-            throw new InputException(new Phrase('Invalid key has provided'));
+            throw new InputException(new Phrase('Invalid key has provided', ['key'=> $key]));
         }
 
         return $this;
