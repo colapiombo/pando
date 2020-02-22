@@ -21,6 +21,7 @@ use Pando\Component\PandoLogicInterface;
 use Pando\Component\Phrase;
 use Pando\Exception\ArgumentNullException;
 use Pando\Exception\NoSuchEntityException;
+use Pando\Exception\PandoException;
 
 class Pando extends DataSource implements PandoInterface, PandoLogicInterface
 {
@@ -138,27 +139,33 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
     /**
      * {@inheritdoc}
      */
-    public function search(PandoInterface $pando): array
+    public function search(PandoInterface $pando)
     {
         $wanted = [];
-
         if (null === $pando->getTrunk()) {
             throw new ArgumentNullException(new Phrase('Pando cannot be set empty'));
         }
 
         if ($this->compare($pando)) {
-            return $this;
+            $wanted[] = $this;
         }
 
         foreach ($this->getIterator() as $children) {
             $discovered = $children->search($pando);
-            if (\is_array($discovered)) {
+            if ($discovered instanceof PandoInterface) {
+                $wanted[] = $discovered;
+            } elseif (\is_array($discovered)) {
                 foreach ($discovered as $found) {
                     $wanted[] = $found;
                 }
-            } else {
-                $wanted[] = $discovered;
             }
+        }
+
+        if (0 === \count($wanted)) {
+            return null;
+        }
+        if (1 === \count($wanted)) {
+            return current($wanted);
         }
 
         return $wanted;
@@ -176,13 +183,73 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
     /**
      * {@inheritdoc}
      */
-    public function getSibblings(PandoInterface $pando = null, bool $self = false): array
+    public function getSiblings(PandoInterface $pando = null, bool $includeSelf = false, $ageSiblings = null)
     {
-        if (null === $pando && $this->isRoot()) {
-            return [];
+        $siblings = [];
+        if (null === $pando) {
+            return $this->getSibling($includeSelf);
+        }
+        $discovered = $this->search($pando);
+        if ($discovered instanceof PandoInterface) {
+            return $discovered->getSibling($includeSelf, $ageSiblings);
+        }
+        foreach ($discovered as $found) {
+            $siblings[] = $found->getSibling($includeSelf, $ageSiblings);
         }
 
-        return [];
+        return $siblings;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSibling(bool $includeSelf = false, $ageSiblings = null)
+    {
+        $siblings = [];
+        $pos = null;
+        if ($this->isRoot()) {
+            throw new PandoException(new Phrase('root doesn\'t have siblings'));
+        }
+        foreach ($this->parent->children() as $child) {
+            $samePando = $this->compare($child);
+            if ((null !== $ageSiblings || $includeSelf) || !$samePando) {
+                $siblings[] = $child;
+                if ($samePando) {
+                    $pos = \count($siblings) - 1;
+                }
+            }
+        }
+        if (true === $ageSiblings) {
+            $siblings = \array_slice($siblings, $includeSelf ? $pos : ++$pos);
+        } elseif (false === $ageSiblings) {
+            $siblings = \array_slice($siblings, 0, $includeSelf ? ++$pos : $pos);
+        }
+
+        if (0 === \count($siblings)) {
+            return null;
+        }
+
+        if (1 === \count($siblings)) {
+            return current($siblings);
+        }
+
+        return $siblings;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOlderSibling(bool $includeSelf = false)
+    {
+        return $this->getSibling($includeSelf, false);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getYoungerSibling(bool $includeSelf = false)
+    {
+        return $this->getSibling($includeSelf, true);
     }
 
     /**
@@ -211,9 +278,19 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
 
     /**
      * Function use to check if the select Pando have the same data of the other Pando.
+     *
+     * @param PandoInterface $pando node to compare
+     *
+     * @throws ArgumentNullException
+     *
+     * @return bool return TRUE if is different and FALSE if is the same
      */
     protected function compare(PandoInterface $pando): bool
     {
+        if (null === $this->getTrunk() || null === $pando->getTrunk()) {
+            throw new ArgumentNullException(new Phrase('empty pando is set '));
+        }
+
         $diff = array_diff_assoc($pando->getTrunk(), $this->getTrunk());
 
         return empty($diff);
