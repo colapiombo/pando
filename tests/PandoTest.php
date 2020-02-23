@@ -43,6 +43,13 @@ final class PandoTest extends TestCase
      * @covers  \Pando\Component\DataSource::__construct
      * @covers  \Pando\Component\PandoIterator::__construct
      * @covers  \Pando\Pando::getChildren
+     * @covers  \Pando\Component\Phrase::__construct
+     * @covers  \Pando\Component\Phrase::getArguments
+     * @covers  \Pando\Component\Phrase::getRenderer
+     * @covers  \Pando\Component\Phrase::render
+     * @covers  \Pando\Component\Placeholder::keyToPlaceholder
+     * @covers  \Pando\Component\Placeholder::render
+     * @covers  \Pando\Exception\PandoException::__construct
      */
     public function testPandoShouldReturnExceptionForNotExistingPosition()
     {

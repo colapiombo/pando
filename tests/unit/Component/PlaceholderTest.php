@@ -28,6 +28,9 @@ class PlaceholderTest extends TestCase
     }
 
     /**
+     * @covers   \Pando\Component\Placeholder::render
+     * @covers   \Pando\Component\Placeholder::keyToPlaceholder
+     *
      * @param string $text      The text with placeholders
      * @param array  $arguments The arguments supplying values for the placeholders
      * @param string $result    The result of Phrase rendering

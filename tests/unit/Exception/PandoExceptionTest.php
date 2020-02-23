@@ -47,6 +47,19 @@ class PandoExceptionTest extends TestCase
     }
 
     /**
+     * @covers   \Pando\Exception\PandoException::__construct
+     * @covers   \Pando\Component\Phrase::__construct
+     * @covers   \Pando\Component\Phrase::getArguments
+     * @covers   \Pando\Component\Phrase::getRenderer
+     * @covers   \Pando\Component\Phrase::getText
+     * @covers   \Pando\Component\Phrase::render
+     * @covers   \Pando\Component\Phrase::setRenderer
+     * @covers   \Pando\Component\Placeholder::render
+     * @covers   \Pando\Exception\PandoException::getLogMessage
+     * @covers   \Pando\Exception\PandoException::getParameters
+     * @covers   \Pando\Exception\PandoException::getRawMessage
+     * @covers   \Pando\Component\Placeholder::keyToPlaceholder
+     *
      * @param string $message
      * @param array  $params
      * @param string $expectedLogMessage
@@ -99,6 +112,15 @@ class PandoExceptionTest extends TestCase
     }
 
     /**
+     * @covers   \Pando\Exception\PandoException::__construct
+     * @covers   \Pando\Component\Phrase::__construct
+     * @covers   \Pando\Component\Phrase::getArguments
+     * @covers   \Pando\Component\Phrase::getRenderer
+     * @covers   \Pando\Component\Phrase::getText
+     * @covers   \Pando\Component\Phrase::render
+     * @covers   \Pando\Component\Phrase::setRenderer
+     * @covers   \Pando\Exception\PandoException::getRawMessage
+     *
      * @return void
      */
     public function testGetRawMessage()
@@ -117,6 +139,14 @@ class PandoExceptionTest extends TestCase
     }
 
     /**
+     * @covers   \Pando\Exception\PandoException::__construct
+     * @covers   \Pando\Component\Phrase::__construct
+     * @covers   \Pando\Component\Phrase::getArguments
+     * @covers   \Pando\Component\Phrase::getRenderer
+     * @covers   \Pando\Component\Phrase::render
+     * @covers   \Pando\Component\Phrase::setRenderer
+     * @covers   \Pando\Exception\PandoException::getParameters
+     *
      * @return void
      */
     public function testGetParameters()
@@ -136,6 +166,19 @@ class PandoExceptionTest extends TestCase
     }
 
     /**
+     * @covers   \Pando\Exception\PandoException::__construct
+     * @covers   \Pando\Exception\PandoException::getLogMessage
+     * @covers   \Pando\Component\Phrase::__construct
+     * @covers   \Pando\Component\Phrase::getArguments
+     * @covers   \Pando\Component\Phrase::getRenderer
+     * @covers   \Pando\Component\Phrase::render
+     * @covers   \Pando\Component\Phrase::setRenderer
+     * @covers   \Pando\Component\Phrase::getText
+     * @covers   \Pando\Component\Placeholder::keyToPlaceholder
+     * @covers   \Pando\Component\Placeholder::render
+     * @covers   \Pando\Exception\PandoException::getParameters
+     * @covers   \Pando\Exception\PandoException::getRawMessage
+     *
      * @return void
      */
     public function testGetLogMessage()
@@ -155,6 +198,15 @@ class PandoExceptionTest extends TestCase
         $this->assertSame($expectedLogMessage, $localizeException->getLogMessage());
     }
 
+    /**
+     * @covers   \Pando\Exception\PandoException::__construct
+     * @covers   \Pando\Exception\PandoException::getCode
+     * @covers   \Pando\Component\Phrase::__construct
+     * @covers   \Pando\Component\Phrase::getArguments
+     * @covers   \Pando\Component\Phrase::getRenderer
+     * @covers   \Pando\Component\Phrase::render
+     * @covers   \Pando\Component\Phrase::setRenderer
+     */
     public function testGetCode()
     {
         $expectedCode = 42;

@@ -142,6 +142,13 @@ class DataSourceTest extends TestCase
      * @covers  \Pando\Component\DataSource::setData
      * @covers  \Pando\Component\DataSource::addData
      * @covers  \Pando\Exception\InputException
+     * @covers  \Pando\Component\Phrase::__construct
+     * @covers  \Pando\Component\Phrase::getArguments
+     * @covers  \Pando\Component\Phrase::getRenderer
+     * @covers  \Pando\Component\Phrase::render
+     * @covers  \Pando\Component\Placeholder::keyToPlaceholder
+     * @covers  \Pando\Component\Placeholder::render
+     * @covers  \Pando\Exception\PandoException::__construct
      */
     public function testDataSourcesetDataException()
     {
@@ -157,6 +164,13 @@ class DataSourceTest extends TestCase
      * @covers  \Pando\Component\DataSource::setData
      * @covers  \Pando\Component\DataSource::get
      * @covers  \Pando\Exception\InputException
+     * @covers  \Pando\Component\Phrase::__construct
+     * @covers  \Pando\Component\Phrase::getArguments
+     * @covers  \Pando\Component\Phrase::getRenderer
+     * @covers  \Pando\Component\Phrase::render
+     * @covers  \Pando\Component\Placeholder::keyToPlaceholder
+     * @covers  \Pando\Component\Placeholder::render
+     * @covers  \Pando\Exception\PandoException::__construct
      */
     public function testDataSourceunsetOutput()
     {

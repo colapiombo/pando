@@ -52,6 +52,12 @@ class PhraseTest extends TestCase
     /**
      * Test rendering.
      *
+     * @covers  \Pando\Component\Phrase::__construct
+     * @covers  \Pando\Component\Phrase::getArguments
+     * @covers  \Pando\Component\Phrase::getRenderer
+     * @covers  \Pando\Component\Phrase::render
+     * @covers  \Pando\Component\Phrase::setRenderer
+     *
      * @return void
      */
     public function testRendering()
@@ -73,6 +79,10 @@ class PhraseTest extends TestCase
     /**
      * Test defers rendering.
      *
+     * @covers  \Pando\Component\Phrase::__construct
+     * @covers  \Pando\Component\Phrase::getRenderer
+     * @covers  \Pando\Component\Phrase::setRenderer
+     *
      * @return void
      */
     public function testDefersRendering()
@@ -85,6 +95,13 @@ class PhraseTest extends TestCase
 
     /**
      * Test that to string is alias to render.
+     *
+     * @covers  \Pando\Component\Phrase::__construct
+     * @covers  \Pando\Component\Phrase::__toString
+     * @covers  \Pando\Component\Phrase::getArguments
+     * @covers  \Pando\Component\Phrase::getRenderer
+     * @covers  \Pando\Component\Phrase::render
+     * @covers  \Pando\Component\Phrase::setRenderer
      *
      * @return void
      */
@@ -107,6 +124,11 @@ class PhraseTest extends TestCase
     /**
      * Test get text.
      *
+     * @covers  \Pando\Component\Phrase::__construct
+     * @covers  \Pando\Component\Phrase::getText
+     * @covers  \Pando\Component\Phrase::getRenderer
+     * @covers  \Pando\Component\Phrase::setRenderer
+     *
      * @return void
      */
     public function testGetText()
@@ -119,6 +141,11 @@ class PhraseTest extends TestCase
 
     /**
      * Test get arguments.
+     *
+     * @covers  \Pando\Component\Phrase::__construct
+     * @covers  \Pando\Component\Phrase::getArguments
+     * @covers  \Pando\Component\Phrase::getRenderer
+     * @covers  \Pando\Component\Phrase::setRenderer
      *
      * @return void
      */
@@ -133,6 +160,15 @@ class PhraseTest extends TestCase
         $this->assertSame($arguments, $phrase2->getArguments());
     }
 
+    /**
+     * @covers   \Pando\Component\Phrase::__construct
+     * @covers   \Pando\Component\Phrase::render
+     * @covers   \Pando\Component\Phrase::__toString
+     * @covers   \Pando\Component\Phrase::getArguments
+     * @covers   \Pando\Component\Phrase::getRenderer
+     * @covers   \Pando\Component\Phrase::setRenderer
+     * @covers   \Pando\Component\Placeholder::render
+     */
     public function testToStringWithExceptionOnRender()
     {
         $text = 'raw text';
@@ -148,6 +184,10 @@ class PhraseTest extends TestCase
 
     /**
      * Test default renderer.
+     *
+     * @covers   \Pando\Component\Phrase::__construct
+     * @covers   \Pando\Component\Phrase::getRenderer
+     * @covers   \Pando\Component\Phrase::setRenderer
      */
     public function testDefaultRenderer()
     {
