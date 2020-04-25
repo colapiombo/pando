@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 /**
  *
- * Pando 2020 — NOTICE OF MIT LICENSE
- * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
+ * Pando NOTICE OF MIT LICENSE
+ *
+ * @copyright Paolo Combi (https://combi.li)
  * @link    https://github.com/colapiombo/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/colapiombo/pando/blob/master/LICENSE (MIT License)
  *
+ *
  */
 
 namespace Pando\Component;
-
-use Pando\Exception\NoSuchEntityException;
 
 interface PandoInterface extends \Countable, \IteratorAggregate
 {
@@ -47,18 +47,30 @@ interface PandoInterface extends \Countable, \IteratorAggregate
     public function getParent(): ?self;
 
     /**
-     * @throws NoSuchEntityException
-     *
      * @return PandoInterface
      */
-    public function getChildren(int $position): self;
+    public function getChildrenByPosition(int $position): self;
 
     /**
      * Get the children.
      *
      * @return PandoInterface[]
      */
-    public function children(): array;
+    public function getChildren(): array;
+
+    /**
+     * Check if the node has children, then it's a leaf.
+     *
+     * @return bool True if it has children, false otherwise
+     */
+    public function isLeaf(): bool;
+
+    /**
+     * Check if the node is the root node (Node parent is null).
+     *
+     * @return bool True if it's a root node, false otherwise
+     */
+    public function isRoot(): bool;
 
     /**
      * get the Pando instance without root and leaf.

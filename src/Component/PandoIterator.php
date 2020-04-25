@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 /**
  *
- * Pando 2020 — NOTICE OF MIT LICENSE
- * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
+ * Pando NOTICE OF MIT LICENSE
+ *
+ * @copyright Paolo Combi (https://combi.li)
  * @link    https://github.com/colapiombo/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/colapiombo/pando/blob/master/LICENSE (MIT License)
+ *
  *
  */
 
@@ -46,7 +48,7 @@ class PandoIterator implements PandoIteratorInterface
      */
     public function current(): ?PandoInterface
     {
-        return $this->pando->children() ? $this->pando->children()[$this->position] : null;
+        return $this->pando->getChildren() ? $this->pando->getChildren()[$this->position] : null;
     }
 
     /**
@@ -70,7 +72,7 @@ class PandoIterator implements PandoIteratorInterface
      */
     public function valid(): bool
     {
-        return $this->pando->children() && isset($this->pando->children()[$this->position]);
+        return $this->pando->getChildren() && isset($this->pando->getChildren()[$this->position]);
     }
 
     /**

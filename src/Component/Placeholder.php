@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 /**
  *
- * Pando 2020 — NOTICE OF MIT LICENSE
- * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
+ * Pando NOTICE OF MIT LICENSE
+ *
+ * @copyright Paolo Combi (https://combi.li)
  * @link    https://github.com/colapiombo/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/colapiombo/pando/blob/master/LICENSE (MIT License)
+ *
  *
  */
 
@@ -21,12 +23,12 @@ class Placeholder implements RendererInterface
      */
     public function render(array $source, array $arguments): string
     {
-        $text = end($source);
+        $text = \end($source);
 
         if ($arguments) {
-            $placeholders = array_map([$this, 'keyToPlaceholder'], array_keys($arguments));
-            $pairs = array_combine($placeholders, $arguments);
-            $text = strtr($text, $pairs);
+            $placeholders = \array_map([$this, 'keyToPlaceholder'], \array_keys($arguments));
+            $pairs = \array_combine($placeholders, $arguments);
+            $text = \strtr($text, $pairs);
         }
 
         return $text;
@@ -40,6 +42,6 @@ class Placeholder implements RendererInterface
      */
     private function keyToPlaceholder($key): string
     {
-        return '%'.(\is_int($key) ? (string) ($key + 1) : $key);
+        return '%' . (\is_int($key) ? (string) ($key + 1) : $key);
     }
 }

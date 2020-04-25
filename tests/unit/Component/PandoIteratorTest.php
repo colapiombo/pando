@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 /**
  *
- * Pando 2020 — NOTICE OF MIT LICENSE
- * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
+ * Pando NOTICE OF MIT LICENSE
+ *
+ * @copyright Paolo Combi (https://combi.li)
  * @link    https://github.com/colapiombo/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/colapiombo/pando/blob/master/LICENSE (MIT License)
+ *
  *
  */
 
@@ -82,7 +84,7 @@ class PandoIteratorTest extends TestCase
      * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Component\PandoIterator::__construct
      * @covers \Pando\Pando::__construct
-     * @covers \Pando\Pando::children
+     * @covers \Pando\Pando::getChildren
      */
     public function testPandoIteratorReturnNullIfTheCollectionIsFinish()
     {
@@ -98,7 +100,7 @@ class PandoIteratorTest extends TestCase
      * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Component\PandoIterator::__construct
      * @covers \Pando\Pando::__construct
-     * @covers \Pando\Pando::children
+     * @covers \Pando\Pando::getChildren
      */
     public function testPandoIteratorCheckValidFunctionReturnFalseIfTheIteratorHasFinish()
     {
@@ -115,7 +117,7 @@ class PandoIteratorTest extends TestCase
      * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Component\PandoIterator::__construct
      * @covers \Pando\Pando::__construct
-     * @covers \Pando\Pando::children
+     * @covers \Pando\Pando::getChildren
      */
     public function testRewindFunctionReturnZero()
     {
@@ -129,7 +131,7 @@ class PandoIteratorTest extends TestCase
      * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Component\PandoIterator::__construct
      * @covers \Pando\Pando::__construct
-     * @covers \Pando\Pando::children
+     * @covers \Pando\Pando::getChildren
      * @covers \Pando\Pando::add
      * @covers \Pando\Pando::setParent
      */
@@ -139,7 +141,7 @@ class PandoIteratorTest extends TestCase
         $pando->add(new Pando());
         $iterator = new PandoIterator($pando);
         $current = $iterator->current();
-        $this->assertSame($pando->children()[0], $current);
+        $this->assertSame($pando->getChildren()[0], $current);
     }
 
     /**

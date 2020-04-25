@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 /**
  *
- * Pando 2020 — NOTICE OF MIT LICENSE
- * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
+ * Pando NOTICE OF MIT LICENSE
+ *
+ * @copyright Paolo Combi (https://combi.li)
  * @link    https://github.com/colapiombo/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/colapiombo/pando/blob/master/LICENSE (MIT License)
+ *
  *
  */
 
@@ -113,7 +115,7 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
      */
     public function count()
     {
-        return \count($this->children);
+        return \count($this->getChildren());
     }
 
     /**
@@ -127,7 +129,7 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
     /**
      * {@inheritdoc}
      */
-    public function getChildren(int $position): PandoInterface
+    public function getChildrenByPosition(int $position): PandoInterface
     {
         if (isset($this->children[$position])) {
             return $this->children[$position];
@@ -165,7 +167,7 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
             return null;
         }
         if (1 === \count($wanted)) {
-            return current($wanted);
+            return \current($wanted);
         }
 
         return $wanted;
@@ -183,7 +185,7 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
     /**
      * {@inheritdoc}
      */
-    public function getSiblings(PandoInterface $pando = null, bool $includeSelf = false, $ageSiblings = null)
+    public function getSiblings(PandoInterface $pando = null, bool $includeSelf = false, $ageSiblings = null): array
     {
         $siblings = [];
         if (null === $pando) {
@@ -191,10 +193,11 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
         }
         $discovered = $this->search($pando);
         if ($discovered instanceof PandoInterface) {
-            return $discovered->getSibling($includeSelf, $ageSiblings);
-        }
-        foreach ($discovered as $found) {
-            $siblings[] = $found->getSibling($includeSelf, $ageSiblings);
+            $siblings[] = $discovered->getSibling($includeSelf, $ageSiblings);
+        } elseif (\is_array($discovered)) {
+            foreach ($discovered as $found) {
+                $siblings[] = $found->getSibling($includeSelf, $ageSiblings);
+            }
         }
 
         return $siblings;
@@ -203,14 +206,15 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
     /**
      * {@inheritdoc}
      */
-    public function getSibling(bool $includeSelf = false, $ageSiblings = null)
+    public function getSibling(bool $includeSelf = false, $ageSiblings = null): array
     {
         $siblings = [];
         $pos = null;
         if ($this->isRoot()) {
             throw new PandoException(new Phrase('root doesn\'t have siblings'));
         }
-        foreach ($this->parent->children() as $child) {
+
+        foreach ($this->parent->getChildren() as $child) {
             $samePando = $this->compare($child);
             if ((null !== $ageSiblings || $includeSelf) || !$samePando) {
                 $siblings[] = $child;
@@ -225,21 +229,13 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
             $siblings = \array_slice($siblings, 0, $includeSelf ? ++$pos : $pos);
         }
 
-        if (0 === \count($siblings)) {
-            return null;
-        }
-
-        if (1 === \count($siblings)) {
-            return current($siblings);
-        }
-
         return $siblings;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getOlderSibling(bool $includeSelf = false)
+    public function getOlderSibling(bool $includeSelf = false): array
     {
         return $this->getSibling($includeSelf, false);
     }
@@ -247,7 +243,7 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
     /**
      * {@inheritdoc}
      */
-    public function getYoungerSibling(bool $includeSelf = false)
+    public function getYoungerSibling(bool $includeSelf = false): array
     {
         return $this->getSibling($includeSelf, true);
     }
@@ -255,7 +251,7 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
     /**
      * {@inheritdoc}
      */
-    public function children(): array
+    public function getChildren(): array
     {
         return $this->children;
     }
@@ -288,10 +284,10 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
     protected function compare(PandoInterface $pando): bool
     {
         if (null === $this->getTrunk() || null === $pando->getTrunk()) {
-            throw new ArgumentNullException(new Phrase('empty pando is set '));
+            throw new ArgumentNullException(new Phrase('empty pando is set'));
         }
 
-        $diff = array_diff_assoc($pando->getTrunk(), $this->getTrunk());
+        $diff = \array_diff_assoc($pando->getTrunk(), $this->getTrunk());
 
         return empty($diff);
     }
