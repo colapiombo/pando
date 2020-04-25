@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 /**
  *
- * Pando 2020 — NOTICE OF MIT LICENSE
- * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
+ * Pando NOTICE OF MIT LICENSE
+ *
+ * @copyright Paolo Combi (https://combi.li)
  * @link    https://github.com/colapiombo/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/colapiombo/pando/blob/master/LICENSE (MIT License)
+ *
  *
  */
 
 namespace Pando\Component;
 
-
-interface PandoDataSourceInterface extends  DataSourceInterface
+interface PandoDataSourceInterface extends DataSourceInterface
 {
-
     /**
      * Get object data by path.
      *
@@ -44,7 +44,6 @@ interface PandoDataSourceInterface extends  DataSourceInterface
      * Otherwise checks if the specified attribute is set.
      *
      * @param string $key
-     * @return bool
      */
     public function hasData($key = ''): bool;
 
@@ -52,7 +51,6 @@ interface PandoDataSourceInterface extends  DataSourceInterface
      * Convert array of object data with to array with keys requested in $keys array.
      *
      * @param array $keys array of required keys
-     * @return array
      */
     public function toArray(array $keys = []): array;
 

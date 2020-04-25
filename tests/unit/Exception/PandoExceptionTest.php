@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 /**
  *
- * Pando 2020 — NOTICE OF MIT LICENSE
- * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
+ * Pando NOTICE OF MIT LICENSE
+ *
+ * @copyright Paolo Combi (https://combi.li)
  * @link    https://github.com/colapiombo/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/colapiombo/pando/blob/master/LICENSE (MIT License)
+ *
  *
  */
 
@@ -96,13 +98,13 @@ class PandoExceptionTest extends TestCase
                     'parameter2', ],
                 'message parameter1 parameter2',
             ],
-            'withNamedParameters'  => [
+            'withNamedParameters' => [
                 'message %key1 %key2',
-                ['key1'    => 'parameter1',
+                ['key1' => 'parameter1',
                     'key2' => 'parameter2', ],
                 'message parameter1 parameter2',
             ],
-            'withoutParameters'    => [
+            'withoutParameters' => [
                 'message',
                 [],
                 'message',

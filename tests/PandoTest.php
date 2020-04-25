@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 /**
  *
- * Pando 2020 — NOTICE OF MIT LICENSE
- * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
+ * Pando NOTICE OF MIT LICENSE
+ *
+ * @copyright Paolo Combi (https://combi.li)
  * @link    https://github.com/colapiombo/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/colapiombo/pando/blob/master/LICENSE (MIT License)
+ *
  *
  */
 
@@ -134,7 +136,7 @@ final class PandoTest extends TestCase
         $pando2->setData('key', 'firstPando');
         $pando->add($pando2);
         $iterator = $pando->getIterator();
-        $this->assertSame(['key' =>'firstPando'], $iterator->current()->getTrunk());
+        $this->assertSame(['key' => 'firstPando'], $iterator->current()->getTrunk());
         $this->assertNull($pando->getTrunk());
     }
 

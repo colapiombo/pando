@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 /**
  *
- * Pando 2020 — NOTICE OF MIT LICENSE
- * @copyright 2019-2020 (c) Paolo Combi (https://combi.li)
+ * Pando NOTICE OF MIT LICENSE
+ *
+ * @copyright Paolo Combi (https://combi.li)
  * @link    https://github.com/colapiombo/pando
  * @author  Paolo Combi <paolo@combi.li>
  * @license https://github.com/colapiombo/pando/blob/master/LICENSE (MIT License)
+ *
  *
  */
 
@@ -99,13 +101,13 @@ class DataSourceTest extends TestCase
         $data = new DataSource();
         $this->assertSame([], $data->getData());
         $data->setData('0', 0);
-        $this->assertSame([0=>0], $data->getData());
+        $this->assertSame([0 => 0], $data->getData());
         $data->setData('1', 'a');
-        $this->assertSame([0=>0, 1=>'a'], $data->getData());
+        $this->assertSame([0 => 0, 1 => 'a'], $data->getData());
         $data->setData('2', new \stdClass());
         $data2 = new DataSource();
         $data2->setData('key', 'value');
-        $data->addData(['3'=>$data2]);
+        $data->addData(['3' => $data2]);
         $this->assertSame('value', $data->getData('3/key'));
     }
 
@@ -174,7 +176,7 @@ class DataSourceTest extends TestCase
      */
     public function testDataSourceunsetOutput()
     {
-        $data = new  DataSource([0=>0]);
+        $data = new  DataSource([0 => 0]);
         $data->unsetData();
         $this->assertEmpty($data->getData());
         $array = [1, 2, 3, 4, 5];
