@@ -82,7 +82,7 @@ class PandoIteratorTest extends TestCase
      * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Component\PandoIterator::__construct
      * @covers \Pando\Pando::__construct
-     * @covers \Pando\Pando::children
+     * @covers \Pando\Pando::getChildren
      */
     public function testPandoIteratorReturnNullIfTheCollectionIsFinish()
     {
@@ -98,7 +98,7 @@ class PandoIteratorTest extends TestCase
      * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Component\PandoIterator::__construct
      * @covers \Pando\Pando::__construct
-     * @covers \Pando\Pando::children
+     * @covers \Pando\Pando::getChildren
      */
     public function testPandoIteratorCheckValidFunctionReturnFalseIfTheIteratorHasFinish()
     {
@@ -115,7 +115,7 @@ class PandoIteratorTest extends TestCase
      * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Component\PandoIterator::__construct
      * @covers \Pando\Pando::__construct
-     * @covers \Pando\Pando::children
+     * @covers \Pando\Pando::getChildren
      */
     public function testRewindFunctionReturnZero()
     {
@@ -129,7 +129,7 @@ class PandoIteratorTest extends TestCase
      * @covers \Pando\Component\DataSource::__construct
      * @covers \Pando\Component\PandoIterator::__construct
      * @covers \Pando\Pando::__construct
-     * @covers \Pando\Pando::children
+     * @covers \Pando\Pando::getChildren
      * @covers \Pando\Pando::add
      * @covers \Pando\Pando::setParent
      */
@@ -139,7 +139,7 @@ class PandoIteratorTest extends TestCase
         $pando->add(new Pando());
         $iterator = new PandoIterator($pando);
         $current = $iterator->current();
-        $this->assertSame($pando->children()[0], $current);
+        $this->assertSame($pando->getChildren()[0], $current);
     }
 
     /**
