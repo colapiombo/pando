@@ -1,72 +1,33 @@
 version: "3.1"
 services:
-
-  ### nginx ###########################################
-  nginx:
-    image: nginx:latest
-    volumes:
-      - ./:/var/www/html
-      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./resources/logs:/var/log/nginx/
-    depends_on:
-      - php
-      - mariadb
-    ports:
-      - "80:80"
-    networks:
-      - pando
-  ### php ##############################################
   php:
     build:
       context: ./docker/php
+    working_dir: /var/www
+    command: php -S 0.0.0.0:80 -t public
+    ports:
+      - 80:80
     volumes:
-      - ./:/var/www/html
-    networks:
-      - pando
-  ### MariaDB ##############################################
-  mariadb:
+      - .:/var/www
+      - logs:/var/www/logs
+    expose:
+      - 80
+  db:
     image: mariadb:latest
-    volumes:
-      - mariadb:/var/lib/mysql:cached # Persist the database in a Docker volume.
+    restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=example
-      - MYSQL_DATABASE=tree
-      - MYSQL_USER=tree
-      - MYSQL_PASSWORD=tree
+      MYSQL_ROOT_PASSWORD: pando
+  adminer:
+    image: adminer
+    restart: always
     ports:
-      - "3306:3306"
-    networks:
-      - pando
-  ### phpMyAdmin ###########################################
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: mariadb
-      PMA_USER: tree
-      PMA_PASSWORD: tree
-      PMA_ARBITRARY: 1
-      PHP_UPLOAD_MAX_FILESIZE: 1G
-      PHP_MAX_INPUT_VARS: 1G
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mariadb
-    volumes:
-      - ./resources/sessions:/sessions
-    networks:
-      - pando
-  ### composer ###########################################
+      - 8080:8080
   composer:
     image: composer
     volumes:
       - .:/app
-    command: install
-    depends_on:
-      - php
-    networks:
-      - pando
-networks:
-  pando:
+      - ~/.composer:/tmp
 
 volumes:
-  mariadb:
+  logs:
+    driver: local
