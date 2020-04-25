@@ -98,7 +98,7 @@ class DataSource implements DataSourceInterface
         }
 
         // process a/b/c key as ['a']['b']['c']
-        if (false !== strpos($key, '/')) {
+        if (false !== \mb_strpos($key, '/')) {
             $data = $this->getDataByPath($key);
         } else {
             $data = $this->get($key);
@@ -108,7 +108,7 @@ class DataSource implements DataSourceInterface
             if ($data === (array) $data) {
                 $data = $data[$index] ?? null;
             } elseif (\is_string($data)) {
-                $data = explode(PHP_EOL, $data);
+                $data = \explode(PHP_EOL, $data);
                 $data = $data[$index] ?? null;
             } elseif ($data instanceof self) {
                 $data = $data->getData($index);
@@ -125,7 +125,7 @@ class DataSource implements DataSourceInterface
      */
     public function getDataByPath($path)
     {
-        $keys = explode('/', $path);
+        $keys = \explode('/', $path);
         $data = $this->data;
 
         foreach ($keys as $key) {
@@ -187,7 +187,7 @@ class DataSource implements DataSourceInterface
      */
     public function toString(): string
     {
-        $result = implode(', ', $this->getData());
+        $result = \implode(', ', $this->getData());
 
         return $result;
     }
