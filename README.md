@@ -17,7 +17,7 @@ It's recommended follow [enviroment](./docs/enviroment.md) to install this libra
 To execute the test suite, you'll need to follow the instruction in the [enviroment](./docs/enviroment.md) and then run: 
 
 ```bash
-$ composer test
+$ make test
 ```
 
 ## Contributing
