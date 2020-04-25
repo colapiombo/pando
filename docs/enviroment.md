@@ -89,7 +89,7 @@ The starter includes a Makefile to simplify the basic tasks:
 
 3. Open your favorite browser :
 
-    * [http://localhost:](80http://localhost:80) php
+    * [http://localhost:80](http://localhost:80) php
     * [http://localhost:8080](http://localhost:8080/) adminer (server:db, username: root, password: pando)
 
 4. Stop and clear services
