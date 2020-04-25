@@ -19,6 +19,7 @@ THIS_FILE := $(lastword $(MAKEFILE_LIST))
 
 # Retrieve the command used to manage the Docker environment
 COMPOSER = docker-compose run --rm -u $$(id -u) composer
+TEST = docker-compose run --rm -u $$(id -u) php
 
 # Retrieve the Makefile used to manage the Docker environment
 COMPOSE_FILE	:= docker-compose.yml
@@ -72,7 +73,7 @@ phpcsfix: ## fix the code with php-cs-fixer & lint
 
 test: ## test with phpunit
 	$(COMPOSER) install
-	$(COMPOSER) composer test
+	$(TEST) php vendor/bin/phpunit
 
 
 .DEFAULT_GOAL := help

@@ -44,11 +44,10 @@
     "friendsofphp/php-cs-fixer": "^2.16"
   },
   "scripts": {
-    "lint": "composer lint:php-cs-fixer && composer lint:magento-code-style",
+    "lint": "composer lint:php-cs-fixer",
     "lint:fix": "composer lint:php-cs-fixer:fix",
     "lint:php-cs-fixer": "php-cs-fixer fix --config=.php_cs.dist --verbose --dry-run",
     "lint:php-cs-fixer:fix": "php-cs-fixer fix --config=.php_cs.dist --verbose",
-    "start:php": "php -S localhost:9000 -t public",
-    "test": "phpunit"
+    "start:php": "php -S localhost:9000 -t public"
   }
 }
