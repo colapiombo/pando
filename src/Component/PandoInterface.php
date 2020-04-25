@@ -47,18 +47,32 @@ interface PandoInterface extends \Countable, \IteratorAggregate
     public function getParent(): ?self;
 
     /**
-     * @throws NoSuchEntityException
-     *
+     * @param int $position
      * @return PandoInterface
      */
-    public function getChildren(int $position): self;
+    public function getChildrenByPosition(int $position): self;
 
     /**
      * Get the children.
      *
      * @return PandoInterface[]
      */
-    public function children(): array;
+    public function getChildren(): array;
+
+    /**
+     * Check if the node has children, then it's a leaf.
+     *
+     * @return bool True if it has children, false otherwise
+     */
+    public function isLeaf(): bool;
+
+    /**
+     * Check if the node is the root node (Node parent is null).
+     *
+     * @return bool True if it's a root node, false otherwise
+     */
+    public function isRoot(): bool;
+
 
     /**
      * get the Pando instance without root and leaf.

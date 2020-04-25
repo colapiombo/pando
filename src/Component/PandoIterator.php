@@ -46,7 +46,7 @@ class PandoIterator implements PandoIteratorInterface
      */
     public function current(): ?PandoInterface
     {
-        return $this->pando->children() ? $this->pando->children()[$this->position] : null;
+        return $this->pando->getChildren() ? $this->pando->getChildren()[$this->position] : null;
     }
 
     /**
@@ -70,7 +70,7 @@ class PandoIterator implements PandoIteratorInterface
      */
     public function valid(): bool
     {
-        return $this->pando->children() && isset($this->pando->children()[$this->position]);
+        return $this->pando->getChildren() && isset($this->pando->getChildren()[$this->position]);
     }
 
     /**
