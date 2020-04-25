@@ -21,12 +21,12 @@ class Placeholder implements RendererInterface
      */
     public function render(array $source, array $arguments): string
     {
-        $text = end($source);
+        $text = \end($source);
 
         if ($arguments) {
-            $placeholders = array_map([$this, 'keyToPlaceholder'], array_keys($arguments));
-            $pairs = array_combine($placeholders, $arguments);
-            $text = strtr($text, $pairs);
+            $placeholders = \array_map([$this, 'keyToPlaceholder'], \array_keys($arguments));
+            $pairs = \array_combine($placeholders, $arguments);
+            $text = \strtr($text, $pairs);
         }
 
         return $text;
