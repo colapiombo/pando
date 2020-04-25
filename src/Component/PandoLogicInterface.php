@@ -19,19 +19,6 @@ use Pando\Exception\PandoException;
 
 interface PandoLogicInterface
 {
-    /**
-     * Check if the node has children, then it's a leaf.
-     *
-     * @return bool True if it has children, false otherwise
-     */
-    public function isLeaf(): bool;
-
-    /**
-     * Check if the node is the root node (Node parent is null).
-     *
-     * @return bool True if it's a root node, false otherwise
-     */
-    public function isRoot(): bool;
 
     /**
      * For a given node, the degree of a node is the number of its children.
@@ -60,9 +47,9 @@ interface PandoLogicInterface
      * @throws ArgumentNullException
      * @throws PandoException
      *
-     * @return PandoInterface\PandoInterface[]|null
+     * @return PandoInterface[]
      */
-    public function getSiblings(PandoInterface $pando = null, bool $includeSelf = false, $ageSiblings = null);
+    public function getSiblings(PandoInterface $pando = null, bool $includeSelf = false, $ageSiblings = null): array;
 
     /**
      * @param bool      $includeSelf whether the node given as argument should also be present in the returned array
@@ -73,9 +60,9 @@ interface PandoLogicInterface
      * @throws ArgumentNullException
      * @throws PandoException
      *
-     * @return PandoInterface|PandoInterface[]|null
+     * @return PandoInterface[]
      */
-    public function getSibling(bool $includeSelf = false, $ageSiblings = null);
+    public function getSibling(bool $includeSelf = false, $ageSiblings = null): array;
 
     /**
      * Returns previous node in the same level, or NULL if there's no previous node.
@@ -85,9 +72,9 @@ interface PandoLogicInterface
      * @throws ArgumentNullException
      * @throws PandoException
      *
-     * @return PandoInterface|PandoInterface[]|null
+     * @return PandoInterface[]
      */
-    public function getOlderSibling(bool $includeSelf = false);
+    public function getOlderSibling(bool $includeSelf = false): array;
 
     /**
      * Returns following node in the same level, or NULL if there's no following node.
@@ -97,9 +84,9 @@ interface PandoLogicInterface
      * @throws ArgumentNullException
      * @throws PandoException
      *
-     * @return PandoInterface|PandoInterface[]|null
+     * @return PandoInterface[]
      */
-    public function getYoungerSibling(bool $includeSelf = false);
+    public function getYoungerSibling(bool $includeSelf = false): array;
 
     /**
      * Check if a Pando exist if there are multiple Pando it will return an array of that.
