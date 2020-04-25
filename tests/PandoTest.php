@@ -42,7 +42,7 @@ final class PandoTest extends TestCase
      * @covers  \Pando\Pando::__construct
      * @covers  \Pando\Component\DataSource::__construct
      * @covers  \Pando\Component\PandoIterator::__construct
-     * @covers  \Pando\Pando::getChildren
+     * @covers  \Pando\Pando::getChildrenByPosition
      * @covers  \Pando\Component\Phrase::__construct
      * @covers  \Pando\Component\Phrase::getArguments
      * @covers  \Pando\Component\Phrase::getRenderer
@@ -54,21 +54,21 @@ final class PandoTest extends TestCase
     public function testPandoShouldReturnExceptionForNotExistingPosition()
     {
         $this->expectException(NoSuchEntityException::class);
-        $this->pando->getChildren(1);
+        $this->pando->getChildrenByPosition(1);
     }
 
     /**
      * @covers  \Pando\Pando::__construct
      * @covers  \Pando\Component\DataSource::__construct
      * @covers  \Pando\Component\PandoIterator::__construct
-     * @covers  \Pando\Pando::getChildren
+     * @covers  \Pando\Pando::getChildrenByPosition
      * @covers  \Pando\Pando::add
      * @covers  \Pando\Pando::setParent
      */
     public function testPandoShouldReturnPandoForExistingPosition()
     {
         $this->pando->add(new Pando());
-        $result = $this->pando->getChildren(0);
+        $result = $this->pando->getChildrenByPosition(0);
         $this->assertInstanceOf(Pando::class, $result);
     }
 
