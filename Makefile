@@ -47,7 +47,6 @@ prune:
 	docker-compose stop
 	docker system prune -af
 
-
 githooks: ## set the environment for check with lint
 	echo "make lint" > .git/hooks/pre-push
 	chmod +x .git/hooks/pre-push

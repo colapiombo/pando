@@ -11,7 +11,7 @@ Command-line tools for `validating` or `generating` PDS conform packages which a
 
 PHPStan focuses on finding errors in your code without actually running it. It catches whole classes of bugs even before you write tests for the code. It moves PHP closer to compiled languages in the sense that the correctness of each line of the code can be checked before you run the actual line.
 
-## phpstan/phpstan
+## squizlabs/php_codesniffer
 ##### detects violations of a defined set of coding standards
 
 PHP_CodeSniffer is a set of two PHP scripts; the main phpcs script that tokenizes PHP, JavaScript and CSS files to detect violations of a defined coding standard, and a second phpcbf script to automatically correct coding standard violations. PHP_CodeSniffer is an essential development tool that ensures your code remains clean and consistent.
@@ -25,5 +25,13 @@ PHP client library for [Coveralls](https://coveralls.io).
 ##### PhpBench is a benchmarking framework for PHP.
 
 PhpBench is a benchmarking framework for PHP.
+
+
+## monolog/monolog
+##### Sends your logs to files, sockets, inboxes, databases and various web services.
+
+Monolog sends your logs to files, sockets, inboxes, databases and various web services. See the complete list of handlers below. Special handlers allow you to build advanced logging strategies.
+
+
 
 ___
