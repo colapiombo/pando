@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Pando\Component;
 
+use Pando\Api\Component\DataSourceInterface;
 use Pando\Exception\InputException;
 
 class DataSource implements DataSourceInterface
