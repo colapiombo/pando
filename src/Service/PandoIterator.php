@@ -14,8 +14,9 @@ declare(strict_types=1);
  *
  */
 
-namespace Pando\Component;
+namespace Pando\Service;
 
+use Pando\Api\PandoInterface;
 use Pando\Api\Service\PandoIteratorInterface;
 
 class PandoIterator implements PandoIteratorInterface
@@ -84,4 +85,5 @@ class PandoIterator implements PandoIteratorInterface
     {
         $this->position = $this->reverse ? $this->pando->count() - 1 : 0;
     }
+    
 }

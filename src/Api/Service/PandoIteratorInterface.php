@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace Pando\Api\Service;
 
+use Pando\Api\PandoInterface;
+
 interface PandoIteratorInterface extends \Iterator
 {
     /**
