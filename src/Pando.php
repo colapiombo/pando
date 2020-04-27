@@ -16,16 +16,17 @@ declare(strict_types=1);
 
 namespace Pando;
 
+use ArrayObject;
+use Pando\Api\PandoInterface;
+use Pando\Api\PandoLogicInterface;
 use Pando\Component\DataSource;
-use Pando\Component\PandoInterface;
-use Pando\Component\PandoIterator;
-use Pando\Component\PandoLogicInterface;
 use Pando\Component\Phrase;
 use Pando\Exception\ArgumentNullException;
 use Pando\Exception\NoSuchEntityException;
 use Pando\Exception\PandoException;
+use Pando\Service\PandoIterator;
 
-class Pando extends DataSource implements PandoInterface, PandoLogicInterface
+class Pando implements PandoInterface, PandoLogicInterface
 {
     /**
      * @var PandoInterface
@@ -33,39 +34,22 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
     private $parent;
 
     /**
-     * @var PandoInterface[]
+     * @var ArrayObject<PandoInterface>
      */
     private $children;
 
     /**
+     * @var DataSource|null
+     */
+    private $dataSource;
+
+    /**
      * Pando constructor.
-     *
-     * @throws Exception\InputException
      */
-    public function __construct(array $data = [])
+    public function __construct(DataSource $dataSource = null)
     {
-        parent::__construct($data);
-        $this->children = [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function add(PandoInterface $pando): PandoInterface
-    {
-        $pando->setParent($this);
-        $this->children[] = $pando;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove(PandoInterface $pando): PandoInterface
-    {
-        // TODO: Implement remove() method.
-        return $this;
+        $this->children = new ArrayObject();
+        $this->dataSource = $dataSource;
     }
 
     /**
@@ -81,9 +65,70 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
     /**
      * {@inheritdoc}
      */
-    public function getTrunk(): ?array
+    public function getParent(): ?PandoInterface
     {
-        return empty($data = $this->getData()) ? null : $data;
+        return $this->parent;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDataSource(DataSource $dataSource): PandoInterface
+    {
+        $this->dataSource = $dataSource;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDatasource(): ?DataSource
+    {
+        return $this->dataSource;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setChildren(PandoInterface $pando, $index = null): PandoInterface
+    {
+        if ($index === null) {
+            $this->children->append($pando);
+        } else {
+            if ($this->children->offsetExists($index)) {
+                if (\is_string($index)) {
+                    $this->children->offsetSet($index, $pando);
+                } else {
+                    $children = $this->children->getArrayCopy();
+                    \array_splice($children, $index, 0, [$pando]);
+                    $this->children->exchangeArray($children);
+                }
+            } else {
+                $this->children->offsetSet($index, $pando);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildren(): ArrayObject
+    {
+        return  $this->children;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildrenByPosition($position): PandoInterface
+    {
+        if ($this->children->offsetExists($position)) {
+            return $this->children->offsetGet($position);
+        }
+        throw new NoSuchEntityException(new Phrase('No such entity with position', ['position' => $position]));
     }
 
     /**
@@ -115,27 +160,7 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
      */
     public function count()
     {
-        return \count($this->getChildren());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent(): ?PandoInterface
-    {
-        return $this->parent;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getChildrenByPosition(int $position): PandoInterface
-    {
-        if (isset($this->children[$position])) {
-            return $this->children[$position];
-        }
-
-        throw new NoSuchEntityException(new Phrase('No such entity with position', ['position' => $position]));
+        return $this->getChildren()->count();
     }
 
     /**
@@ -249,14 +274,6 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getChildren(): array
-    {
-        return $this->children;
-    }
-
-    /**
      *  {@inheritdoc}
      */
     public function getIterator(): PandoIterator
@@ -273,21 +290,44 @@ class Pando extends DataSource implements PandoInterface, PandoLogicInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function add(PandoInterface $pando): PandoInterface
+    {
+        $pando->setParent($this);
+        $this->children[] = $pando;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove(PandoInterface $pando): PandoInterface
+    {
+        // TODO: Implement remove() method.
+        return $this;
+    }
+
+    /**
      * Function use to check if the select Pando have the same data of the other Pando.
      *
      * @param PandoInterface $pando node to compare
      *
-     * @throws ArgumentNullException
-     *
      * @return bool return TRUE if is different and FALSE if is the same
+     *
+     * @throws ArgumentNullException
      */
     protected function compare(PandoInterface $pando): bool
     {
-        if (null === $this->getTrunk() || null === $pando->getTrunk()) {
+        if (null === $this->getDatasource() || null === $pando->getDatasource()) {
             throw new ArgumentNullException(new Phrase('empty pando is set'));
         }
 
-        $diff = \array_diff_assoc($pando->getTrunk(), $this->getTrunk());
+        $diff = \array_diff_assoc(
+            $pando->getDatasource()->getData(),
+            $this->getDatasource()->getData()
+        );
 
         return empty($diff);
     }

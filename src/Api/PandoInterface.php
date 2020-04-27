@@ -14,26 +14,13 @@ declare(strict_types=1);
  *
  */
 
-namespace Pando\Component;
+namespace Pando\Api;
+
+use Pando\Component\DataSource;
+use Pando\Service\PandoIterator;
 
 interface PandoInterface extends \Countable, \IteratorAggregate
 {
-    /**
-     * add child Pando to the current Pando.
-     *
-     * @param PandoInterface $pando
-     *
-     * @return PandoInterface
-     */
-    public function add(self $pando): self;
-
-    /**
-     * remove child Pando to the current Pando.
-     *
-     * @return PandoInterface
-     */
-    public function remove(self $pando): self;
-
     /**
      * @param PandoInterface $pando
      *
@@ -47,16 +34,30 @@ interface PandoInterface extends \Countable, \IteratorAggregate
     public function getParent(): ?self;
 
     /**
-     * @return PandoInterface
+     * @return $this
      */
-    public function getChildrenByPosition(int $position): self;
+    public function setDataSource(DataSource $dataSource): self;
+
+    public function getDatasource(): ?DataSource;
 
     /**
      * Get the children.
      *
-     * @return PandoInterface[]
+     * @return \ArrayObject<PandoInterface>
      */
-    public function getChildren(): array;
+    public function getChildren(): \ArrayObject;
+
+    /**
+     * @param string|int|null $index
+     *
+     * @return $this
+     */
+    public function setChildren(self $pando, $index = null): self;
+
+    /**
+     * @return PandoInterface
+     */
+    public function getChildrenByPosition(int $position): self;
 
     /**
      * Check if the node has children, then it's a leaf.
@@ -73,11 +74,20 @@ interface PandoInterface extends \Countable, \IteratorAggregate
     public function isRoot(): bool;
 
     /**
-     * get the Pando instance without root and leaf.
+     * add child Pando to the current Pando.
      *
-     * @return mixed
+     * @param PandoInterface $pando
+     *
+     * @return PandoInterface
      */
-    public function getTrunk(): ?array;
+    public function add(self $pando): self;
+
+    /**
+     * remove child Pando to the current Pando.
+     *
+     * @return PandoInterface
+     */
+    public function remove(self $pando): self;
 
     /**
      * return a Iterator class used for iterate on the Pando children.
