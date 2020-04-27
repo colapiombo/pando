@@ -85,5 +85,4 @@ class PandoIterator implements PandoIteratorInterface
     {
         $this->position = $this->reverse ? $this->pando->count() - 1 : 0;
     }
-    
 }
