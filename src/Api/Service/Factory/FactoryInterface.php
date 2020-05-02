@@ -14,9 +14,11 @@ declare(strict_types=1);
  *
  */
 
-namespace Pando\Api\Service\Builder;
+namespace Pando\Api\Service\Factory;
 
-interface BuilderInterface
+use Pando\Api\PandoInterface;
+
+interface FactoryInterface
 {
-    public static function create();
+    public static function create(): PandoInterface;
 }
