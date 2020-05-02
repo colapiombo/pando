@@ -17,9 +17,9 @@ declare(strict_types=1);
 namespace Pando\Api;
 
 use Pando\Component\DataSource;
-use Pando\Service\PandoIterator;
+use Pando\Exception\NoSuchEntityException;
 
-interface PandoInterface extends \Countable, \IteratorAggregate
+interface PandoInterface
 {
     /**
      * @param PandoInterface $pando
@@ -41,23 +41,32 @@ interface PandoInterface extends \Countable, \IteratorAggregate
     public function getDatasource(): ?DataSource;
 
     /**
-     * Get the children.
-     *
-     * @return \ArrayObject<PandoInterface>
-     */
-    public function getChildren(): \ArrayObject;
-
-    /**
+     * @param PandoInterface $pando
      * @param string|int|null $index
+     * @param PandoInterface|null $parent
      *
      * @return $this
      */
-    public function setChildren(self $pando, $index = null): self;
+    public function setChild(self $pando, $index = null, self $parent = null): self;
 
     /**
-     * @return PandoInterface
+     * @param string|int $index
+     * @param PandoInterface|null $parent
+     *
+     * @throws NoSuchEntityException
+     *
+     * @return $this
      */
-    public function getChildrenByPosition(int $position): self;
+    public function getChild($index, self $parent = null): self;
+
+    /**
+     * return a Iterator class used for iterate on the Pando children.
+     */
+    public function getChildren();
+
+    public function getPando(): \Generator;
+
+    public function count(): int;
 
     /**
      * Check if the node has children, then it's a leaf.
@@ -74,29 +83,12 @@ interface PandoInterface extends \Countable, \IteratorAggregate
     public function isRoot(): bool;
 
     /**
-     * add child Pando to the current Pando.
-     *
-     * @param PandoInterface $pando
-     *
-     * @return PandoInterface
-     */
-    public function add(self $pando): self;
-
-    /**
      * remove child Pando to the current Pando.
      *
+     * @param PandoInterface $pando
+     * @param PandoInterface|null $parent
+     *
      * @return PandoInterface
      */
-    public function remove(self $pando): self;
-
-    /**
-     * return a Iterator class used for iterate on the Pando children.
-     */
-    public function getIterator(): PandoIterator;
-
-    /**
-     * return a Iterator class used for iterate on the Pando children.
-     * with this specific function the iteration is reverse.
-     */
-    public function getReverseIterator(): PandoIterator;
+    public function remove(self $pando, self $parent = null): self;
 }

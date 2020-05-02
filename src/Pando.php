@@ -24,7 +24,6 @@ use Pando\Component\Phrase;
 use Pando\Exception\ArgumentNullException;
 use Pando\Exception\NoSuchEntityException;
 use Pando\Exception\PandoException;
-use Pando\Service\PandoIterator;
 
 class Pando implements PandoInterface, PandoLogicInterface
 {
@@ -91,49 +90,6 @@ class Pando implements PandoInterface, PandoLogicInterface
     /**
      * {@inheritdoc}
      */
-    public function setChildren(PandoInterface $pando, $index = null): PandoInterface
-    {
-        if ($index === null) {
-            $this->children->append($pando);
-        } else {
-            if ($this->children->offsetExists($index)) {
-                if (\is_string($index)) {
-                    $this->children->offsetSet($index, $pando);
-                } else {
-                    $children = $this->children->getArrayCopy();
-                    \array_splice($children, $index, 0, [$pando]);
-                    $this->children->exchangeArray($children);
-                }
-            } else {
-                $this->children->offsetSet($index, $pando);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getChildren(): ArrayObject
-    {
-        return  $this->children;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getChildrenByPosition($position): PandoInterface
-    {
-        if ($this->children->offsetExists($position)) {
-            return $this->children->offsetGet($position);
-        }
-        throw new NoSuchEntityException(new Phrase('No such entity with position', ['position' => $position]));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function isLeaf(): bool
     {
         return null !== $this->getParent();
@@ -150,15 +106,108 @@ class Pando implements PandoInterface, PandoLogicInterface
     /**
      * {@inheritdoc}
      */
-    public function degree(): int
+    public function setChild(PandoInterface $child, $index = null, PandoInterface $parent = null): PandoInterface
     {
-        return $this->count();
+        if ($parent !== null) {
+            /** @var PandoInterface $pando */
+            foreach ($this->getPando() as $pando) {
+                if ($pando->compare($parent)) {
+                    $pando->setChild($child, $index);
+                }
+            }
+        } else {
+            $child->setParent($this);
+            if ($index === null) {
+                $this->children->append($child);
+            } else {
+                if ($this->children->offsetExists($index)) {
+                    if (\is_string($index)) {
+                        $this->children->offsetSet($index, $child);
+                    } else {
+                        $children = $this->children->getArrayCopy();
+                        \array_splice($children, $index, 0, [$child]);
+                        $this->children->exchangeArray($children);
+                    }
+                } else {
+                    $this->children->offsetSet($index, $child);
+                }
+            }
+        }
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function getChild($index, PandoInterface $parent = null): PandoInterface
+    {
+        if ($parent !== null) {
+            foreach ($this->getPando() as $pando) {
+                if ($pando->compare($parent)) {
+                    $pando->getChild($index);
+                }
+            }
+        } else {
+            if ($this->children->offsetExists($index)) {
+                return $this->children->offsetGet($index);
+            }
+        }
+        throw new NoSuchEntityException(new Phrase('No such entity with index', ['index' => $index]));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildren(): \ArrayIterator
+    {
+        return $this->children->getIterator();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPando(): \Generator
+    {
+        yield $this;
+
+        /** @var PandoInterface $pando */
+        foreach ($this->getChildren() as $pando) {
+            yield from $pando->getPando();
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove(PandoInterface $child, PandoInterface $parent = null): PandoInterface
+    {
+        if ($parent !== null) {
+            foreach ($this->getPando() as $pando) {
+                if ($pando->compare($parent)) {
+                    $pando->remove($child);
+                }
+            }
+        } else {
+            $children = $this->children->getArrayCopy();
+            $key = \array_search($child, $children, true);
+            if ($key !== false) {
+                if (\is_string($key)) {
+                    $this->children->offsetUnset($key);
+                } else {
+                    \array_splice($children, $key, 1);
+                    $this->children->exchangeArray($children);
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count(): int
     {
         return $this->getChildren()->count();
     }
@@ -169,15 +218,13 @@ class Pando implements PandoInterface, PandoLogicInterface
     public function search(PandoInterface $pando)
     {
         $wanted = [];
-        if (null === $pando->getTrunk()) {
-            throw new ArgumentNullException(new Phrase('Pando cannot be set empty'));
-        }
 
         if ($this->compare($pando)) {
             $wanted[] = $this;
         }
 
-        foreach ($this->getIterator() as $children) {
+        /** @var PandoInterface $children */
+        foreach ($this->getPando() as $children) {
             $discovered = $children->search($pando);
             if ($discovered instanceof PandoInterface) {
                 $wanted[] = $discovered;
@@ -196,15 +243,6 @@ class Pando implements PandoInterface, PandoLogicInterface
         }
 
         return $wanted;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function pandoDegree(): int
-    {
-        // TODO: Implement pandoDegree() method.
-        return 0;
     }
 
     /**
@@ -274,39 +312,20 @@ class Pando implements PandoInterface, PandoLogicInterface
     }
 
     /**
-     *  {@inheritdoc}
+     * {@inheritdoc}
      */
-    public function getIterator(): PandoIterator
+    public function degree(): int
     {
-        return new PandoIterator($this);
+        return $this->count();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getReverseIterator(): PandoIterator
+    public function pandoDegree(): int
     {
-        return new PandoIterator($this, true);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function add(PandoInterface $pando): PandoInterface
-    {
-        $pando->setParent($this);
-        $this->children[] = $pando;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove(PandoInterface $pando): PandoInterface
-    {
-        // TODO: Implement remove() method.
-        return $this;
+        // TODO: Implement pandoDegree() method.
+        return 0;
     }
 
     /**
